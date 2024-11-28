@@ -1,0 +1,14 @@
+@media only screen and (max-width: 688px){
+
+    #title-container
+    {
+        left: 35%;
+        margin-top: 10vh;
+    }
+
+    form{
+        margin-left: 8%;
+        margin-top: 15%;
+        min-width: 76vw;
+    }
+}

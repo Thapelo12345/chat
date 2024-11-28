@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat-dash-board</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dash.css">
+    <link rel="stylesheet" href="styles/user-menu.css">
+    <link rel="stylesheet" href="styles/update-form.css">
+    <link rel="stylesheet" href="styles/users-group-menu.css">
+    <link rel="stylesheet" href="styles/chat.css">
+    <link rel="stylesheet" href="styles/dash-mobile.css">
+    <link rel="stylesheet" href="styles/mobile-forms-and-menus.css">
+    <link rel="stylesheet" href="styles/mobile-chat.css">
+    <link rel="stylesheet" href="styles/loading.css">
+
+    <script src="js-files/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="js-files/handle-back-errors.js"></script>
+    <script type="text/javascript" src="js-files/user.js"></script>
+    <script type="text/javascript" src="js-files/chat.js"></script>
+
+</head>
+<body> 
+
+    <div id="title-container"><h1>Let's <span>TALK!</span></h1></div>
+<nav>
+    <div id="user-container" class = "nav-containers">
+        <button id = 'status-btn' class = 'nav-btn' value="status-btn"  onclick="openUserMenu()">
+            <h1 id="user-name" class = 'status-labels'>User</h1>
+            <img id = "status-pic" src="pic/person-icon-1675.png" alt="account-pic" >
+            <h1 id="loggin-status" class = 'status-labels'>Online</h1>
+        </button>
+    </div>
+
+    <div id="Users-container" class = "nav-containers">
+        <button id = 'users-btn' class = 'nav-btn' onclick="usersOnlineList()" value="users-btn">
+            <h1 id="user-name" class = 'status-labels'>Online</h1>
+<div class="svg-container">
+            <svg fill="#5ab1e7" viewBox="0 0 1910 1910"  stroke="#5ab1e7">
+            <g id="SVGRepo_bgCarrier" stroke-width=".1px"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier"> 
+            <path d="M1807.059 1270.091c-68.668 48.452-188.725 116.556-343.906 158.57-18.861-102.55-92.725-187.37-196.066-219.106-91.708-28.235-185.11-48.339-279.53-61.666 71.944-60.762 121.638-145.807 135.982-243.162 21.91-.791 44.837-1.243 71.04-1.243 166.023.904 331.143 26.316 490.955 75.445 72.621 22.362 121.525 87.755 121.525 162.861v128.301Zm-451.765 338.824c-114.183 80.753-330.24 198.099-621.176 198.099-129.43 0-379.144-26.203-621.177-198.1v-128.752c0-74.993 49.017-140.499 121.75-162.861 162.41-49.694 330.354-74.88 499.427-74.88h8.47c166.588.79 331.821 26.09 491.407 75.106 72.509 22.249 121.3 87.642 121.3 162.635v128.753Zm-903.53-761.901V734.072c0-155.632 126.608-282.352 282.354-282.352 155.746 0 282.353 126.72 282.353 282.352v112.942c0 155.746-126.607 282.353-282.353 282.353S451.765 1002.76 451.765 847.014Zm734.118-734.118c75.22 0 146.146 29.478 199.567 82.899 53.309 53.421 82.786 124.235 82.786 199.454V508.19c0 155.746-126.607 282.353-282.353 282.353-19.651 0-38.4-2.598-56.47-6.438v-50.033c0-156.423-92.047-290.71-224.188-354.748 8.357-148.066 130.447-266.428 280.658-266.428Zm532.857 758.061c-91.37-28.01-184.546-48.226-279.755-61.666 86.174-72.508 142.192-179.802 142.192-301.1V395.248c0-105.374-41.11-204.65-115.877-279.304-74.767-74.767-173.93-115.99-279.417-115.99-200.696 0-365.138 151.002-390.211 345.148-20.217-3.275-40.433-6.325-61.553-6.325-217.977 0-395.294 177.43-395.294 395.294v112.942c0 121.298 56.018 228.593 142.305 301.214-94.305 13.214-188.16 33.092-279.529 61.1C81.092 1246.375 0 1355.249 0 1480.163v185.675l22.588 16.941c275.238 206.344 563.803 237.177 711.53 237.177 344.244 0 593.618-148.63 711.53-237.177l22.587-16.94v-120.51c205.214-50.597 355.652-146.032 429.177-201.373l22.588-16.941V1141.79c0-125.026-80.979-233.901-201.261-270.833Z" fill-rule="evenodd">
+            </path> 
+        </g>
+    </svg>
+</div>
+            <h1 id="Users-online" class = 'status-labels'>Users</h1>
+        </button>
+    </div>
+
+    <div id="group-container" class = "nav-containers">
+
+        <button id="group-btn" class = 'nav-btn' onclick="groupsList()" value="group-btn">
+       <h1>Online</h1>
+       <div class="svg-container">
+            <svg fill="#45dde8" viewBox="-3 0 32 32" version="1.1" >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                <path d="M20.906 20.75c1.313 0.719 2.063 2 1.969 3.281-0.063 0.781-0.094 0.813-1.094 0.938-0.625 0.094-4.563 0.125-8.625 0.125-4.594 0-9.406-0.094-9.75-0.188-1.375-0.344-0.625-2.844 1.188-4.031 1.406-0.906 4.281-2.281 5.063-2.438 1.063-0.219 1.188-0.875 0-3-0.281-0.469-0.594-1.906-0.625-3.406-0.031-2.438 0.438-4.094 2.563-4.906 0.438-0.156 0.875-0.219 1.281-0.219 1.406 0 2.719 0.781 3.25 1.938 0.781 1.531 0.469 5.625-0.344 7.094-0.938 1.656-0.844 2.188 0.188 2.469 0.688 0.188 2.813 1.188 4.938 2.344zM3.906 19.813c-0.5 0.344-0.969 0.781-1.344 1.219-1.188 0-2.094-0.031-2.188-0.063-0.781-0.188-0.344-1.625 0.688-2.25 0.781-0.5 2.375-1.281 2.813-1.375 0.563-0.125 0.688-0.469 0-1.656-0.156-0.25-0.344-1.063-0.344-1.906-0.031-1.375 0.25-2.313 1.438-2.719 1-0.375 2.125 0.094 2.531 0.938 0.406 0.875 0.188 3.125-0.25 3.938-0.5 0.969-0.406 1.219 0.156 1.375 0.125 0.031 0.375 0.156 0.719 0.313-1.375 0.563-3.25 1.594-4.219 2.188zM24.469 18.625c0.75 0.406 1.156 1.094 1.094 1.813-0.031 0.438-0.031 0.469-0.594 0.531-0.156 0.031-0.875 0.063-1.813 0.063-0.406-0.531-0.969-1.031-1.656-1.375-1.281-0.75-2.844-1.563-4-2.063 0.313-0.125 0.594-0.219 0.719-0.25 0.594-0.125 0.688-0.469 0-1.656-0.125-0.25-0.344-1.063-0.344-1.906-0.031-1.375 0.219-2.313 1.406-2.719 1.031-0.375 2.156 0.094 2.531 0.938 0.406 0.875 0.25 3.125-0.188 3.938-0.5 0.969-0.438 1.219 0.094 1.375 0.375 0.125 1.563 0.688 2.75 1.313z">
+            </path> 
+        </g>
+    </svg>
+</div>
+<h1 id="number-of-groups">chat groups 1000</h1>
+        </button>
+    </div>
+
+</nav>
+
+<menu id="user-menu">
+    <ul>
+<!-- <li><button>Upload pic</button></li> -->
+<li><button onclick="updateAcc()">Update Acc</button></li>
+<li><button onclick="changePassword()">Change password</button></li>
+<li><button onclick="deleteAccount()">Delete Acc</button></li>
+<li><button onclick="logOut()">LogOut</button></li>
+    </ul>
+
+<button id = 'close-user-menu' onclick="closeUserMenu()">Close</button>
+</menu>
+
+<form id = 'update-form' method="post"></form>
+
+<div id = "users-group-menu"><button id = 'users-group-close-btn' onclick="usersAndGroupClose()">Close</button></div>
+
+<div id="messages-board">
+<div id="log-message"></div>
+
+<!-- setting up the chat write message -->
+<div id="write-massages">
+
+ <div id="send-message">
+
+<h1 id="chart-with-title">Chating with user-name</h1>
+<div id="notification-section">
+    
+    <!-- <h1 id="notification-title"> user Has Join chat</h1> -->
+</div>
+<textarea placeholder="write message here!" name="message-insert" id="message-insert" required>
+    
+</textarea>
+
+<button id="send-btn" class="chat-btn" onclick="sendMessage()">Send</button>
+ </div>
+
+ <button id="close-chat-btn" class="chat-btn" onclick="closeChat()">Close chat</button>
+</div>
+<!-- End of setting write message -->
+</div>
+<!-- End of the whole message board -->
+
+<dialog id="ask-dialog">
+    <h1 id="dialog-header">User Thapelo</h1>
+    <p id="dialog-paragraph">Hi the this is the paragraph</p>
+    <button id = 'yes-btn' value="yes">Yes</button>
+    <button id = 'no-btn' value="no">No</button>
+</dialog>
+
+<dialog id="confirm-dialog">
+    <h1 id="confirm-header"></h1>
+    <p id="confirm-paragraph"></p>
+</dialog>
+
+<dialog id="loading">
+    <h1 id="load-text">Loading Data...</h1>
+    <div></div>
+</dialog>
+
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat-app-login</title>
+
+     <link rel="stylesheet" href="styles/desktop.css">
+     <link rel="stylesheet" href="styles/desktop-mobile.css">
+
+     <script src="js-files/jquery-2.1.1.min.js"></script>
+     <script type="text/javascript" src="js-files/handle-back-errors.js"></script>
+     <script type="text/javascript" src="js-files/login-fuc.js"></script>
+     <script type="text/javascript" src="js-files/chat.js"></script>
+
+</head>
+
+<body>
+<div id="title-container"><h1>Let's <span>TALK!</span></h1></div>
+
+<form id = 'main-form' method="post">
+
+    <div id="icon-container">
+        <svg fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+    </div>
+
+<label for="username" class="form-label">Username: </label>
+<input type="text" id="username" name="username" required><br id = 'line-breaker1'>
+
+<label for="password" class="form-label" id = 'password-label'>Password: </label>
+<input type="password" id="password" name="password" required><br id = 'line-breaker2'>
+
+<button id="login" type="button" class = 'form-buttons' onclick = "loggedin()">Login</button>
+
+<button id = 'register' type="button" class = 'form-buttons' onclick="registerLogin()">Register an acc</button>
+</form>
+
+
+</body>
+
+</html>

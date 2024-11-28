@@ -1,0 +1,24 @@
+@media only screen and (max-width: 758px){
+    #user-menu{width: 60vw;}
+}
+
+@media only screen and (max-width: 1206px){
+    #user-menu{width: 30vw}
+}
+
+@media only screen and (max-width: 830px){
+    #users-group-menu{
+        width: 70vw;
+        left: 0;
+    }
+}
+
+@media only screen and (max-width: 506px){
+    #user-menu{width: 60vw}
+}
+
+@media only screen and (max-width: 446px){
+    #users-group-menu{
+        width: 90vw;
+    }
+}

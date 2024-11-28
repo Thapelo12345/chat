@@ -1,0 +1,148 @@
+#users-group-menu{
+    position: absolute;
+    top: 19%;
+    left: 0;
+    width: 35vw;
+    height: 70vh;
+    border: none;
+    transition-duration: 1s;
+    border-radius: 10px;
+    background-color: rgb(24, 23, 23);
+    box-shadow: 1px 5px 6px black;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+#group-nav{
+    position: relative;
+    top: 0;
+    margin-bottom: 2%;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 1px 3px 5px black;
+    background-image: linear-gradient(0deg, aquamarine, skyblue);
+    width: 98%;
+    height: 10%;
+    margin: 1%;
+    display: flex;
+    flex-flow: column;
+}
+
+#create-group-btn{
+    position: absolute;
+    background-image: linear-gradient(0deg, steelblue, aqua);
+    border-radius: 5px;
+    transition-duration: .2s;
+    width: 19%;
+    font-size: .7em;
+    color: aliceblue;
+    border: 1px solid white;
+    margin: 1%;
+    height: 70%;
+    cursor: pointer;
+    text-shadow: 1px 0px 0px black;
+}
+#create-group-btn:hover{
+    border: none;
+    transform: scale(1.1);
+    box-shadow: 1px .1px 20px lime;
+}
+#search-form{
+    position: absolute;
+    top: 25%;
+    left: 23%;
+    display: flex;
+    flex-flow: row;
+    width: 72%;
+    height: 40%;
+    border: .1px solid white;
+    background-image: linear-gradient(0deg, aqua, steelblue);
+    box-shadow: none;
+    visibility: visible;
+    z-index: 0;
+}
+
+#search-form input{
+    position: relative;
+    bottom: 13px;
+    width: 90%;
+    height: 90%;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 1px 2px 2px black;
+}
+#search-btn{
+    position: relative;
+    bottom: 22px;
+    right: 10px;
+    font-size: .8em;
+    height: 27px;
+    cursor: pointer;
+}
+
+#users-group-close-btn{
+    position: relative;
+    top: 1%;
+    left: 40%;
+    font-size: 1em;
+    padding: 2%;
+    border: .1px solid red;
+    border-radius: 5px;
+    color: white;
+    transition-duration: .2s;
+    width: max-content;
+    height: max-content;
+    background-image: linear-gradient(0deg, gray, red);
+    box-shadow: 1px 1px 2px red;
+    cursor: pointer;
+}
+
+#users-group-close-btn:hover{
+    transform: scale(1.1);
+    box-shadow: 1px .1px 40px red;
+    border: .1px solid white;
+}
+
+#user-list{
+    position: relative;
+    left: 2%;
+    width: 95%;
+    height: 72%;
+    margin-bottom: 1%;
+    margin-top: 2%;
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#user-list ul li{
+    display: flex;
+    flex-flow: row;
+    margin: 2%;
+    padding: 1%;
+    height: 15%;
+    min-height: 27px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px black, inset 0 0 10px aqua;
+}
+
+#user-list ul li:hover{transform: scale(1);}
+
+#user-list ul li h4{
+    color: white;
+    width: max-content;
+    height: max-content;
+    margin-top: 2%;
+}
+
+#user-list ul li button{
+    color: lime;
+    border: .1px solid white;
+    font-size: clamp(.6rem, 2vw, .9rem);
+    width: max-content;
+    height: 70%;
+    padding: 1% 1%;
+    text-shadow: 1px 1px 0px black;
+    background-image: linear-gradient(0deg, blue, skyblue);
+}
+
