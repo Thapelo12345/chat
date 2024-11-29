@@ -10,12 +10,11 @@ fetch('/data', {method: 'GET'})
     if(JSON.stringify(result) !== JSON.stringify(obj)){
 
         if(result.user !== undefined){
-
         currentUser = result.user
         socket.emit('send-username-and-id', result.user, socket.id)
         $('#loading')[0].close()
 
-        }
+        }//end of inner if
         
     }
     else{alert('An error has occurred on the server side! refresh page!!')}

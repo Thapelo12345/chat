@@ -6,14 +6,12 @@
     width: 250px;
     height: 200px;
     background: rgba(128, 128, 128, 0.1);
-    /* background-color: rgba(5, 5, 5, 0.3); */
-    /* box-shadow: 1px 1px 60px black, inset 0 0 10px black; */
     box-shadow: none;
     border: none;
     outline: none;
     border-radius: 30px;
-    /* animation: insetColor 2s linear infinite; */
     animation: none;
+    overflow: hidden;
 }
 
 #loading div{
@@ -21,25 +19,11 @@
     bottom: 17%;
     left: 10%;
     border-radius: 50%;
-    /* border: .1px solid white; */
     margin: 0;
     width: 76%;
     height: 95%;
     animation: load 2s linear infinite ;
 }
-/* 
-@keyframes insetColor {
-    0%{
-        box-shadow: 1px 1px 60px #e65c00, inset 0 0 6px white;
-    }
-    50%{
-        box-shadow: 1px 1px 60px #18b201, inset 0 0 6px white;
-    }
-
-    100%{
-        box-shadow: 1px 1px 60px #0456c8, inset 0 0 6px white;
-    }
-} */
 
 @keyframes load {
     0%{

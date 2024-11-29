@@ -1,6 +1,5 @@
 
 const express = require("express")
-const cors = require('cors');
 const path = require("path")
 const app = express()
 var mongoose = require("mongoose")
@@ -14,7 +13,7 @@ const io = require("socket.io")(3000, {
   }
 })
 var currentUser;
-var errorMessage;
+// var errorMessage;
 
 require("dotenv").config()
 
@@ -70,6 +69,7 @@ io.on('connection', (socket)=>{
 
 socket.on('send-username-and-id', (userName, userId)=>{
   socket.data = {clientName: userName, clientId: userId}
+  currentUser = userName
   userNameAndId.length > 0 ? userNameAndId.push({name: userName, id: userId}) : userNameAndId.unshift({name: userName, id: userId})
 })//end of send username and id socket
 
@@ -91,9 +91,10 @@ if(pos !== -1){
 
 socket.on('ask-to-chat', (toUser) => {
 let fromUser = socket.data.clientName
-
+console.log(`This is the pair array : \n ${singleChatPairs}`)
+console.log(`This group array:\n ${userAndGroup}`)
 if(singleChatPairs.find((item) => item.user1 === toUser || item.user2 === toUser) === undefined){
-if(userAndGroup.find((item) => item === toUser) !== undefined){
+if(userAndGroup.find((item) => item === toUser) === undefined){
   socket.to(userNameAndId.find((item) => item.name === toUser).id).emit('recieve-ask', fromUser)
 }//end of inner if
 else{socket.emit('already-on-privateChat', toUser)}//end of inner else
@@ -186,16 +187,11 @@ app.use(session({
 app.use(express.static('front-end'))
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors({
-  origin: 'http://localhost:5000/', // Replace with your app's domain or use '*'
-  credentials: true, // Allow cookies to be sent
-}));
 
 //start working on the  routes
 
 app.get('/data', async (req, res) => {
   try {
-
     let personToFind = await User.findById(req.session.userId);
     if(!personToFind){personToFind = {username: currentUser}}
     const userName = personToFind.username
@@ -207,6 +203,7 @@ app.get('/data', async (req, res) => {
       onlineUsers: numberUsers - 1,
       groups: numberOfGroups
     };
+ 
 
     res.json(data);
   } catch (err) {
