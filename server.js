@@ -77,6 +77,9 @@ socket.on('disconnect', ()=>{
 userNameAndId.splice(userNameAndId.indexOf(userNameAndId.find((item) => item.name === socket.data.clientName)),1)
 let pos = singleChatPairs.indexOf(singleChatPairs.find((item) => item.user1 === socket.data.clientName || item.user2 === socket.data.clientName))
 
+let name = userAndGroup.find((item) => item === socket.data.clientName)
+if(name){userAndGroup.splice(userAndGroup.indexOf(name), 1)}
+
 if(pos !== -1){
   singleChatPairs.splice(pos, 1)
   //i need to do something here!
@@ -90,8 +93,10 @@ socket.on('ask-to-chat', (toUser) => {
 let fromUser = socket.data.clientName
 
 if(singleChatPairs.find((item) => item.user1 === toUser || item.user2 === toUser) === undefined){
-
-socket.to(userNameAndId.find((item) => item.name === toUser).id).emit('recieve-ask', fromUser)
+if(userAndGroup.find((item) => item === toUser) !== undefined){
+  socket.to(userNameAndId.find((item) => item.name === toUser).id).emit('recieve-ask', fromUser)
+}//end of inner if
+else{socket.emit('already-on-privateChat', toUser)}//end of inner else
 }//end of if
 
 else{socket.emit('already-on-privateChat', toUser)}//end of else
@@ -141,10 +146,16 @@ if(userNameAndId.find((item) => item.id === socket.id) !== undefined){getName = 
 else{getName = 'Someone'}
 
 socket.broadcast.emit('notify', getName, grpName, 'left')
+let name = userAndGroup.find((item) => item === socket.data.clientName)
+
+if(name){userAndGroup.splice(userAndGroup.indexOf(name), 1)}
 socket.leave(grpName)
 })//end of closin group chat socket
 
-socket.on('join_group', (group)=> {socket.join(group)})//end of join group socket
+socket.on('join_group', (group)=> {
+  userAndGroup.length > 0 ? userAndGroup.push(socket.data.clientName) : userAndGroup.unshift(socket.data.clientName)
+  socket.join(group)
+})//end of join group socket
 
 socket.on('sending-group-notification', (group)=>{
   let getName;
@@ -158,7 +169,6 @@ socket.on('sending-group-notification', (group)=>{
 
 socket.on('groupChat', (msg, chatGroup)=>{
   socket.to(chatGroup).emit('recieve-group-message', msg, socket.data.clientName)})//end of chat group socket
-
 })
 //done setting up socket connections
 
