@@ -362,8 +362,8 @@ app.post('/search/user', (req, res)=>{
 
 })//end of search router
 
-
- app.listen(5000, (err)=>{
+const PORT = process.env.PORT || 5000
+ app.listen(PORT, (err)=>{
     if(err){console.error(err)}
-    else{console.log('app runing!')}
+    else{console.log('app runing on port', PORT)}
  })
