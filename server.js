@@ -1,4 +1,3 @@
-
 const express = require("express")
 const path = require("path")
 const app = express()
@@ -13,7 +12,6 @@ const io = require("socket.io")(3000, {
   }
 })
 var currentUser;
-// var errorMessage;
 
 require("dotenv").config()
 
@@ -187,6 +185,11 @@ app.use(session({
 app.use(express.static('front-end'))
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+})//handling all global errors
 
 //start working on the  routes
 
