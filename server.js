@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
   type: 'boolean',
   default: false
  }
-})//end of user schema
+}, { timestamps: true })//end of user schema
 
 const groupSchema = new mongoose.Schema({
   groupName: {
@@ -57,7 +57,7 @@ const groupSchema = new mongoose.Schema({
     unique: true
   },
   numberOfmembers: Number
-})//end of group schema
+}, { timestamps: true })//end of group schema
 
 const Group = mongoose.model('Group', groupSchema)
 const User = mongoose.model('User', userSchema)
