@@ -1,6 +1,6 @@
 
 // const socket = io('http://localhost:3000')
-const socket = io('https://chat-6o8u.onrender.com/login', {withCredentials: true});
+const socket = io('https://chat-6o8u.onrender.com', {withCredentials: true});
 var chatType, currentUser;
 
 socket.on('connect', ()=>{

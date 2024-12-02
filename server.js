@@ -6,14 +6,30 @@ var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
 require("dotenv").config()
 
+const http = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+
+app.use(cors()); // Allow CORS for frontend communication
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: 'https://chat-6o8u.onrender.com', // Replace with your frontend Render URL
+    methods: ['GET', 'POST'],
+  },
+})
+
+/*
 const PORT1 = process.env.PORT1 || 3000
 const io = require("socket.io")(PORT1, {
-  cors:{origin: ['https://chat-6o8u.onrender.com/login'/*, 'http://localhost:5000'*/],
+  cors:{origin: ['https://chat-6o8u.onrender.com/login', 'http://localhost:5000'],
     methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
   }
 })
+*/
 var currentUser;
 
 var userNameAndId = [], singleChatPairs = [], userAndGroup = []
