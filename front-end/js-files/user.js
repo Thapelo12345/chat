@@ -567,7 +567,7 @@ document.getElementById('search-form').addEventListener('submit', (e)=> e.preven
 
 $(document).ready(function(){
 
-$('#loading')[0].showModal()
+// $('#loading')[0].showModal()
 // document.getElementById('loading').showModal()
 
     fetch('/data', {method: 'GET', credentials: 'include',})
