@@ -6,9 +6,9 @@ var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
 require("dotenv").config()
 
-const PORT1 = process.env.PORT1 || 3000
-const io = require("socket.io")(PORT1, {
-  cors:{origin: ['http://localhost:5000' /*,'https://chat-6o8u.onrender.com/' */],
+const PORT = process.env.PORT || 5000
+const io = require("socket.io")(PORT, {
+  cors:{origin: ['https://chat-6o8u.onrender.com/'/*, 'http://localhost:5000'*/],
     methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
@@ -228,7 +228,6 @@ app.get('/login', (req, res)=>{
 })
 
 app.post('/login', async (req, res)=>{
-  
 const user = await User.findOne({username: req.body.username})
 
 if(user){
@@ -370,7 +369,7 @@ app.post('/search/user', (req, res)=>{
 
 })//end of search router
 
-const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 5000
  app.listen(PORT, (err)=>{
     if(err){console.error(err)}
     else{console.log('app runing on port', PORT)}
