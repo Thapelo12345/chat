@@ -1,28 +1,30 @@
 
 function notify(msg){alert(msg)}
 
-function loggedIn(){
-  // $('#main-form').attr('action', '/login')
-  console.log('successfuly submit!')
-}
-
-// function loggedin(){
-//   document.getElementById('main-form').addEventListener('submit', (e) => e.preventDefault())
-
-//   fetch('/login', {
-//     method: 'POST',
-//     credentials: 'include',
-//     headers:{'Content-Type': 'application/json'},
-//     body: JSON.stringify({username: $('#username').val(), password: $('#password').val()})
-//   })
-//   .then(res => res.json())
-//   .then((result)=>{
-
-//     if(result.message === 'successfuly loggedin!'){window.location.replace("http://localhost:5000/login");}
-//     else{notify(result.message)}
-//   })
-//   .catch(err => console.log(err))
+// function loggedIn(){
+//   $('#main-form').attr('action')
+//   console.log('successfuly submit!')
 // }
+
+function loggedin(){
+  document.getElementById('main-form').addEventListener('submit', (e) => e.preventDefault())
+
+  fetch('/login', {
+    method: 'POST',
+    credentials: 'include',
+    headers:{'Content-Type': 'application/json'},
+    body: JSON.stringify({username: $('#username').val(), password: $('#password').val()})
+  })
+  .then(res => res.json())
+  .then((result)=>{
+
+    if(result.message === 'successfuly loggedin!'){
+      window.location.replace(window.location.href + 'login')
+    }
+    else{notify(result.message)}
+  })
+  .catch(err => console.log(err))
+}
 
 function registerLogin(){
   //  $('#main-form').attr('action', '/register')

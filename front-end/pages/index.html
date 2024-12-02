@@ -19,7 +19,7 @@
 <body>
 <div id="title-container"><h1>Let's <span>TALK!</span></h1></div>
 
-<form id = 'main-form' action="/login" method="post">
+<form id = 'main-form'  method="post">
 
     <div id="icon-container">
         <svg fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -34,7 +34,7 @@
 <label for="password" class="form-label" id = 'password-label'>Password: </label>
 <input type="password" id="password" name="password" required><br id = 'line-breaker2'>
 
-<button id="login" type="submit" class = 'form-buttons' onclick = "loggedin()">Login</button>
+<button id="login" type="button" class = 'form-buttons' onclick = "loggedin()">Login</button>
 
 <button id = 'register' type="button" class = 'form-buttons' onclick="registerLogin()">Register an acc</button>
 </form>
