@@ -8,7 +8,7 @@ require("dotenv").config()
 
 const PORT1 = process.env.PORT1 || 3000
 const io = require("socket.io")(PORT1, {
-  cors:{origin: ['https://chat-6o8u.onrender.com/', 'http://localhost:5000'],
+  cors:{origin: ['http://localhost:5000', 'https://chat-6o8u.onrender.com/'],
     methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
