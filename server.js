@@ -228,7 +228,7 @@ app.get('/login', (req, res)=>{
 })
 
 app.post('/login', async (req, res)=>{
-
+console.log(req.body)
 const user = await User.findOne({username: req.body.username})
 
 if(user){
@@ -238,8 +238,8 @@ if(user){
       req.session.userId = user._id.toString()
       await User.updateOne({username: user.username}, {isActive: true})
       currentUser = user.username
-      // res.sendFile(__dirname + '/front-end/pages/loggedIn.html')
-      res.status(200).json({message: 'successfuly loggedin!'})
+      res.sendFile(path.join(__dirname,  'front-end/pages/loggedIn.html'))
+      // res.status(200).json({message: 'successfuly loggedin!'})
     }
 
     else{res.json({message: 'Incorrect password'})}
