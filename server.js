@@ -4,16 +4,18 @@ const app = express()
 var mongoose = require("mongoose")
 var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
-const io = require("socket.io")(3000, {
-  cors:{origin: ['http://localhost:5000'],
+require("dotenv").config()
+
+const PORT1 = process.env.PORT1 || 3000
+const io = require("socket.io")(PORT1, {
+  cors:{ //origin: ['http://localhost:5000'],
+    origin: ['https://chat-tl7u.onrender.com/'],
     methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
   }
 })
 var currentUser;
-
-require("dotenv").config()
 
 var userNameAndId = [], singleChatPairs = [], userAndGroup = []
 
