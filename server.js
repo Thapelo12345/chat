@@ -182,7 +182,8 @@ app.use(session({
    cookie: {maxAge: 5000 * 60 * 60 * 24}
  }))
 
-app.use(express.static('front-end'))
+// app.use(express.static('front-end'))
+app.use(express.static(path.join(__dirname, 'front-end')));
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -215,9 +216,15 @@ app.get('/data', async (req, res) => {
   }
 });
 
-app.get('/', (req, res)=>{res.sendFile(__dirname + '/front-end/pages/index.html')})
+app.get('/', (req, res)=>{
+  // res.sendFile(__dirname + '/front-end/pages/index.html')
+  res.sendFile(path.join(__dirname, 'front-end/pages/index.html'));
+})
 
-app.get('/login', (req, res)=>{res.sendFile(__dirname + '/front-end/pages/loggedIn.html')})
+app.get('/login', (req, res)=>{
+  // res.sendFile(__dirname + '/front-end/pages/loggedIn.html')
+  res.sendFile(path.join(__dirname, 'front-end/pages/loggedIn.html'))
+})
 
 app.post('/login', async (req, res)=>{
 
