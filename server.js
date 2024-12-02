@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://chat-6o8u.onrender.com', // Replace with your frontend Render URL
+    origin: 'https://chat-6o8u.onrender.com/login', // Replace with your frontend Render URL
     methods: ['GET', 'POST'],
   },
 })
