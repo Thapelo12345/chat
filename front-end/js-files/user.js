@@ -566,8 +566,8 @@ document.getElementById('search-form').addEventListener('submit', (e)=> e.preven
 }//end of search func
 
 $(document).ready(function(){
+    
 
-// $('#loading')[0].showModal()
 document.getElementById('loading').showModal()
 
     fetch('/data', {method: 'GET', credentials: 'include',})
@@ -582,4 +582,12 @@ document.getElementById('loading').showModal()
         }
     })
     .catch(err => console.log(err))
+
+    window.addEventListener('beforeunload', ()=>{
+        fetch('/logout', {method: POST})
+        .then()
+        .catch(err => console.log('fail to log out '+ err))
+    })
+
+
   });

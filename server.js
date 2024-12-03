@@ -5,16 +5,6 @@ var mongoose = require("mongoose")
 var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
 require("dotenv").config()
-/*
-const PORT1 = process.env.PORT1 || 3000
-const io = require("socket.io")(PORT1, {
-  cors:{origin: ['https://chat-6o8u.onrender.com/login', 'http://localhost:5000'],
-    methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true
-  }
-})
-*/
 
 const http = require('http');
 const { Server } = require('socket.io');
@@ -178,7 +168,6 @@ socket.on('groupChat', (msg, chatGroup)=>{
   socket.to(chatGroup).emit('recieve-group-message', msg, socket.data.clientName)})//end of chat group socket
 })
 
-// server.listen(5000)
 //done setting up socket connections
 
 app.use(session({
@@ -226,15 +215,9 @@ app.get('/data', async (req, res) => {
   }
 });
 
-app.get('/', (req, res)=>{
-  // res.sendFile(__dirname + '/front-end/pages/index.html')
-  res.sendFile(path.join(__dirname, 'front-end/pages/index.html'));
-})
+app.get('/', (req, res)=>{res.sendFile(path.join(__dirname, 'front-end/pages/index.html'));})
 
-app.get('/login', (req, res)=>{
-  // res.sendFile(__dirname + '/front-end/pages/loggedIn.html')
-  res.sendFile(path.join(__dirname, 'front-end/pages/loggedIn.html'))
-})
+app.get('/login', (req, res)=>{res.sendFile(path.join(__dirname, 'front-end/pages/loggedIn.html'))})
 
 app.post('/login', async (req, res)=>{
 const user = await User.findOne({username: req.body.username})
@@ -267,11 +250,24 @@ app.get('/logout', async(req, res) => {
     }
     // Clear any cookies if applicable
     else {
-      res.clearCookie('connect.sid'); // `connect.sid` is the default session cookie name
-    return res.redirect('/'); // Redirect user to the login page or homepage
+      res.clearCookie('connect.sid')
+    return res.redirect('/')
 
     }//end of else
     
+    
+  });
+}); //end of logout route
+
+app.post('/logout', async(req, res) => {
+
+  let user = await User.findByIdAndUpdate(req.session.userId, {isActive: false}, {new: true, runValidators: true })
+  userNameAndId.splice(userNameAndId.indexOf(userNameAndId.find((item) => item.name === user.username)), 1)
+
+  req.session.destroy((err) => {
+    if (err) {res.status(500).send('Failed to logout.');}
+    // Clear any cookies if applicable
+    else {res.clearCookie('connect.sid')}//end of else
     
   });
 }); //end of logout route
@@ -382,8 +378,3 @@ const PORT = process.env.PORT || 5000
 server.listen(PORT, ()=>{
   console.log('App runing on port ' + PORT)
 })
-
-//  app.listen(PORT, (err)=>{
-//     if(err){console.error(err)}
-//     else{console.log('app runing on port', PORT)}
-//  })

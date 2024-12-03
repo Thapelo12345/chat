@@ -4,9 +4,7 @@ function modifyUrl(arr){
 }//end of modify fun
 
 const url = modifyUrl(window.location.href.split('/'))
-console.log(url)
 const socket = io(url)
-// const socket = io('https://chat-6o8u.onrender.com/login', {withCredentials: true});
 var chatType, currentUser;
 
 socket.on('connect', ()=>{
@@ -33,10 +31,9 @@ fetch('/data', {method: 'GET'})
 })//get my socket id
 
 socket.on('disconnected', ()=> {
+    alert('You have disconnected, please refresh page!')
     location.reload();
-    // document.getElementById('loading').close()
-    // $('#load-text').text('Loading Data...')
-    // alert(`${currentUser} You have disconnected from site please refresh`)
+
 })
 
 socket.on('recieve-ask', (personAskingToChat)=>{
@@ -230,3 +227,4 @@ function closeChat(){
     chatType === 'private' ? socket.emit('close-private-chat') : socket.emit('close-group-chat', chatGroup)
     
 }//end of close chat funt
+
