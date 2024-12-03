@@ -1,5 +1,11 @@
+function modifyUrl(arr){
+    arr.pop()
+    return arr.join('/')
+}//end of modify fun
 
-const socket = io('http://localhost:3000')
+const url = modifyUrl(window.location.href.split('/'))
+console.log(url)
+const socket = io(url)
 // const socket = io('https://chat-6o8u.onrender.com/login', {withCredentials: true});
 var chatType, currentUser;
 

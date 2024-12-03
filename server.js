@@ -5,8 +5,7 @@ var mongoose = require("mongoose")
 var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
 require("dotenv").config()
-
-
+/*
 const PORT1 = process.env.PORT1 || 3000
 const io = require("socket.io")(PORT1, {
   cors:{origin: ['https://chat-6o8u.onrender.com/login', 'http://localhost:5000'],
@@ -15,6 +14,12 @@ const io = require("socket.io")(PORT1, {
         credentials: true
   }
 })
+*/
+
+const http = require('http');
+const { Server } = require('socket.io');
+const server = http.createServer(app); // Create an HTTP server
+const io = new Server(server);
 
 var currentUser;
 
@@ -172,6 +177,8 @@ socket.on('sending-group-notification', (group)=>{
 socket.on('groupChat', (msg, chatGroup)=>{
   socket.to(chatGroup).emit('recieve-group-message', msg, socket.data.clientName)})//end of chat group socket
 })
+
+// server.listen(5000)
 //done setting up socket connections
 
 app.use(session({
@@ -372,7 +379,11 @@ app.post('/search/user', (req, res)=>{
 })//end of search router
 
 const PORT = process.env.PORT || 5000
- app.listen(PORT, (err)=>{
-    if(err){console.error(err)}
-    else{console.log('app runing on port', PORT)}
- })
+server.listen(PORT, ()=>{
+  console.log('App runing on port ' + PORT)
+})
+
+//  app.listen(PORT, (err)=>{
+//     if(err){console.error(err)}
+//     else{console.log('app runing on port', PORT)}
+//  })
