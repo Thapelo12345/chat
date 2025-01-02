@@ -1,0 +1,68 @@
+dialog {
+  position: absolute;
+  top: 12%;
+  left: 20%;
+  border-radius: 10px;
+  transition-duration: 0.5s;
+  border: 0.1px solid cyan;
+  outline: 0.1px solid lime;
+  background-image: linear-gradient(0deg, black, rgb(34, 33, 33));
+  box-shadow: 1px 20px 40px black, 1px 1px 20px lime;
+  width: 20vw;
+  min-width: 200px;
+  height: 30vh;
+  min-height: 200px;
+  animation: glowPlay 5s infinite linear;
+}
+
+@keyframes glowPlay {
+  from {
+    box-shadow: 1px 20px 40px black, 1px 1px 20px lime;
+  }
+  to {
+    box-shadow: 1px 20px 45px black, 1px 1px 50px lime;
+  }
+}
+
+dialog h1 {
+  color: lime;
+  text-shadow: 1px 0px 0px white;
+  font-size: clamp(0.8rem, 2vw, 2rem);
+  text-align: center;
+}
+
+dialog p {
+  color: white;
+  font-size: clamp(0.7rem, 2vw, 1.5rem);
+  text-align: center;
+}
+
+#yes-btn {
+  background-image: linear-gradient(0deg, lime, white);
+}
+#no-btn {
+  background-image: linear-gradient(0deg, brown, white);
+}
+
+dialog button {
+  position: relative;
+  left: 10%;
+  transition-duration: 0.2s;
+  border-radius: 5px;
+  font-size: 1em;
+  margin-left: 10%;
+  width: 20%;
+  height: 20%;
+  cursor: pointer;
+  border: 0.1px aqua solid;
+  box-shadow: 1px 1px 10px black;
+  visibility: visible;
+}
+
+dialog button:hover {
+  transform: scale(1.1);
+  font-size: 1.2em;
+  color: white;
+  text-shadow: 1px 0px 0px black;
+  box-shadow: 1px 1px 40px cyan;
+}

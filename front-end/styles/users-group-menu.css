@@ -1,148 +1,197 @@
-#users-group-menu{
-    position: absolute;
-    top: 19%;
-    left: 0;
-    width: 35vw;
-    height: 70vh;
-    border: none;
-    transition-duration: 1s;
-    border-radius: 10px;
-    background-color: rgb(24, 23, 23);
-    box-shadow: 1px 5px 6px black;
-    overflow: hidden;
-    visibility: hidden;
+#users-group-menu {
+  position: absolute;
+  top: 19%;
+  left: 0;
+  width: 55vw;
+  height: 70vh;
+  border: none;
+  transition-duration: 1s;
+  border-radius: 10px;
+  background-color: rgb(24, 23, 23);
+  box-shadow: 1px 5px 15px black;
+  overflow-x: hidden;
+  overflow-y: auto;
+  visibility: hidden;
+}
+#users-group-menu::-webkit-scrollbar {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
-#group-nav{
-    position: relative;
-    top: 0;
-    margin-bottom: 2%;
-    padding: 0;
-    border-radius: 5px;
-    box-shadow: 1px 3px 5px black;
-    background-image: linear-gradient(0deg, aquamarine, skyblue);
-    width: 98%;
-    height: 10%;
-    margin: 1%;
-    display: flex;
-    flex-flow: column;
+#users-group-menu::-webkit-scrollbar-thumb {
+  background-color: cadetblue;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 0.1px;
 }
 
-#create-group-btn{
-    position: absolute;
-    background-image: linear-gradient(0deg, steelblue, aqua);
-    border-radius: 5px;
-    transition-duration: .2s;
-    width: 19%;
-    font-size: .7em;
-    color: aliceblue;
-    border: 1px solid white;
-    margin: 1%;
-    height: 70%;
-    cursor: pointer;
-    text-shadow: 1px 0px 0px black;
-}
-#create-group-btn:hover{
-    border: none;
-    transform: scale(1.1);
-    box-shadow: 1px .1px 20px lime;
-}
-#search-form{
-    position: absolute;
-    top: 25%;
-    left: 23%;
-    display: flex;
-    flex-flow: row;
-    width: 72%;
-    height: 40%;
-    border: .1px solid white;
-    background-image: linear-gradient(0deg, aqua, steelblue);
-    box-shadow: none;
-    visibility: visible;
-    z-index: 0;
+#group-nav {
+  position: relative;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2%;
+  padding: 0;
+  border-radius: 5px;
+  box-shadow: 1px 3px 5px black, inset 0 0 5px cadetblue;
+  background: none;
+  width: 98%;
+  height: 12%;
+  margin: 1%;
 }
 
-#search-form input{
-    position: relative;
-    bottom: 13px;
-    width: 90%;
-    height: 90%;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 1px 2px 2px black;
+#create-group-btn {
+  position: relative;
+  background: none;
+  border-radius: 5px;
+  transition-duration: 0.3s;
+  transition-property: box-shadow, transform;
+  width: max-content;
+  font-size: clamp(0.57rem, 1vw, 1rem);
+  color: aliceblue;
+  border: none;
+  height: 70%;
+  margin: 0;
+  cursor: pointer;
+  text-shadow: 1px 0px 0px aquamarine;
+  box-sizing: border-box;
 }
-#search-btn{
-    position: relative;
-    bottom: 22px;
-    right: 10px;
-    font-size: .8em;
-    height: 27px;
-    cursor: pointer;
+#create-group-btn:hover {
+  border: none;
+  color: cadetblue;
+  transform: scale(1.1);
+  box-shadow: 1px 9px 10px black, 1px 10px 10px cadetblue;
 }
-
-#users-group-close-btn{
-    position: relative;
-    top: 1%;
-    left: 40%;
-    font-size: 1em;
-    padding: 2%;
-    border: .1px solid red;
-    border-radius: 5px;
-    color: white;
-    transition-duration: .2s;
-    width: max-content;
-    height: max-content;
-    background-image: linear-gradient(0deg, gray, red);
-    box-shadow: 1px 1px 2px red;
-    cursor: pointer;
-}
-
-#users-group-close-btn:hover{
-    transform: scale(1.1);
-    box-shadow: 1px .1px 40px red;
-    border: .1px solid white;
-}
-
-#user-list{
-    position: relative;
-    left: 2%;
-    width: 95%;
-    height: 72%;
-    margin-bottom: 1%;
-    margin-top: 2%;
-    border-radius: 5px;
-    overflow-x: hidden;
-    overflow-y: auto;
+#search-form {
+  position: relative;
+  top: 3%;
+  left: -8%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 55%;
+  height: 80%;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  background: none;
+  border: none;
+  visibility: visible;
+  z-index: 0;
 }
 
-#user-list ul li{
-    display: flex;
-    flex-flow: row;
-    margin: 2%;
-    padding: 1%;
-    height: 15%;
-    min-height: 27px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 10px black, inset 0 0 10px aqua;
+#search-form input {
+  width: 75%;
+  height: 65%;
+  border-radius: 5px;
+  border: none;
+}
+#search-btn {
+  position: relative;
+  background: none;
+  min-width: 10%;
+  font-size: 0.8em;
+  height: 80%;
+  transition-duration: 0.3s;
+  transition-property: box-shadow, transform;
+  cursor: pointer;
+  box-shadow: none;
 }
 
-#user-list ul li:hover{transform: scale(1);}
-
-#user-list ul li h4{
-    color: white;
-    width: max-content;
-    height: max-content;
-    margin-top: 2%;
+#search-btn:hover {
+  border: none;
+  color: cadetblue;
+  box-shadow: 1px 9px 10px black, 1px 9px 10px cadetblue;
 }
 
-#user-list ul li button{
-    color: lime;
-    border: .1px solid white;
-    font-size: clamp(.6rem, 2vw, .9rem);
-    width: max-content;
-    height: 70%;
-    padding: 1% 1%;
-    text-shadow: 1px 1px 0px black;
-    background-image: linear-gradient(0deg, blue, skyblue);
+.bi {
+  width: 100%;
+  height: 100%;
 }
 
+#users-group-close-btn {
+  position: relative;
+  top: 1%;
+  left: 40%;
+  font-size: 1em;
+  padding: 1%;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition-duration: 0.2s;
+  width: max-content;
+  height: max-content;
+  background: none;
+  cursor: pointer;
+}
+
+#users-group-close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 1px 9px 10px black, 1px 9px 10px red;
+}
+
+#user-list {
+  position: relative;
+  left: 2%;
+  width: 95%;
+  height: 72%;
+  margin-bottom: 1%;
+  margin-top: 2%;
+  border-radius: 5px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#user-list ul li {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  margin: 3%;
+  padding: 0.5%;
+  height: 15%;
+  min-height: 27px;
+  border-radius: 5px;
+  box-shadow: 1px 9px 10px black, 1px 9px 8px cadetblue, inset 0 0 5px cadetblue;
+  background: none;
+}
+
+#user-list ul li:hover {
+  transform: scale(1);
+}
+
+#user-list ul li div {
+  border: 1.8px solid white;
+  max-width: 3vw;
+  height: 100%;
+  box-shadow: 2px 5px 35px black;
+  border-radius: 50%;
+}
+
+#user-list ul li div img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+#user-list ul li h4 {
+  color: white;
+  width: max-content;
+  height: max-content;
+  margin-top: 4%;
+  padding: 1%;
+}
+
+#user-list ul li button {
+  color: lime;
+  border: 0.1px solid white;
+  font-size: clamp(0.6rem, 2vw, 0.87rem);
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  height: max-content;
+  padding: 1% 1%;
+  text-shadow: 1px 1px 0px black;
+  background-image: linear-gradient(0deg, blue, skyblue);
+}

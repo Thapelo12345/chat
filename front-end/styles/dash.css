@@ -1,147 +1,185 @@
-@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
-body{
-    background-color: rgb(24, 23, 23);
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(24, 23, 23);
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 }
 
-#title-container{
-    position: relative;
-    left: 24vw;
-    top: 5%;
-    justify-content: center;
-    border-radius: 5px;
-    border: .1px solid white;
-    outline: .1px solid aqua;
-    background-color: rgb(24, 23, 23);
-    box-shadow: inset 0 0 6px white;
-    padding: 1%;
-    width: max-content;
-   
+#title-container {
+  position: relative;
+  align-self: center;
+  border-radius: 5px;
+  border: 0.1px solid white;
+  outline: 0.1px solid aqua;
+  background-color: rgb(24, 23, 23);
+  box-shadow: inset 0 0 6px white;
+  padding: 1%;
+  margin-top: 5%;
+  width: max-content;
 }
 
-#title-container::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% + 2px);
-    height: calc(100% + 2px);
-    background-image: linear-gradient(37deg, black,silver, orange, blue, hotpink, green, aqua, red,
-    purple, aqua, lime, blue, darkorange, lightgreen, darkgreen);
-    filter: blur(5px);
-    border-radius: 5px;
-    background-size: 400px;
-    z-index: -1;
-    animation: glowy 20s linear infinite;
+@media only screen and (min-width: 768px) {
+  #title-container {
+    margin-right: 95%;
+  }
+}
+
+#title-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  background-image: linear-gradient(
+    37deg,
+    black,
+    silver,
+    orange,
+    blue,
+    hotpink,
+    green,
+    aqua,
+    red,
+    purple,
+    aqua,
+    lime,
+    blue,
+    darkorange,
+    lightgreen,
+    darkgreen
+  );
+  filter: blur(5px);
+  border-radius: 5px;
+  background-size: 400px;
+  z-index: -1;
+  animation: glowy 20s linear infinite;
 }
 
 @keyframes glowy {
-    0%{background-position: 0 0;}
-    50%{background-position: 400% 0;}
-    100%{background-position: 0 0;}
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
-#title-container h1{
-    position: relative;
-    margin: 0;
-    font-family: "Bungee Spice", sans-serif;
-    font-size: clamp(1.5rem, 2vw, 1.8rem);
-    color: white;
+#title-container h1 {
+  position: relative;
+  margin: 0;
+  font-family: "Bungee Spice", sans-serif;
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+  color: white;
 }
 
-nav{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    top: 10%;
-    width: 99vw;
-    height: 22vh;
+nav {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  top: 10%;
+  width: 99vw;
+  height: 22vh;
 }
 
-nav h1{font-size: clamp(.5rem, 2vw, 1rem);}
-
-.nav-containers{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 15vw;
-    max-width: 25vw;
-    min-height: 100px;
-    max-height: 100%;
-    margin-left: 5%;
-    border-radius: 5px;
-    transition-duration: .5s;
-    background-color: rgb(24, 23, 23);
-    box-shadow: 1px 9px 10px black;
-    overflow: hidden;
+nav h1 {
+  font-size: clamp(0.5rem, 2vw, 1rem);
 }
 
-.nav-containers:hover{
-    transform: scale(1.1);
-    box-shadow: 1px 19px 40px black;
+.nav-containers {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 15vw;
+  max-width: 15vw;
+  min-height: 50%;
+  max-height: 100%;
+  border-radius: 5px;
+  transition-duration: 0.5s;
+  background-color: rgb(24, 23, 23);
+  box-shadow: 1px 9px 10px black;
+  overflow: hidden;
 }
 
-#user-container{border: 1px solid green;}
-
-.nav-btn{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+.nav-containers:hover {
+  transform: scale(1.1);
+  box-shadow: 1px 19px 40px black;
 }
 
-.nav-btn h1{
-    color: lime;
-    font-family: "Playfair Display", serif;
-    font-weight: lighter;
-    margin: 0;
+#user-container {
+  border: 1px solid green;
 }
 
-#status-pic{
-    display: block;
-    position: relative;
-    left: 20%;
-    max-width: 60%;
-    min-width: 20%;
-    min-height: 20%;
-    max-height: 68%;
+.nav-btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
-.svg-container{
-    margin-bottom: .6%;
-    margin-left: 1%;
-    width: 100%;
-    height: 60%;
+.nav-btn h1 {
+  color: lime;
+  font-family: "Playfair Display", serif;
+  font-weight: lighter;
+  margin: 0;
 }
 
-.svg-container svg{
-    width: 100%;
-    height: 100%;
+#status-pic {
+  display: block;
+  border: 2px solid white;
+  position: relative;
+  left: 25%;
+  width: 6vw;
+  height: 6vw;
+  border-radius: 50%;
 }
 
-#users-btn{
-    color: lime;
-    font-weight: lighter;
-    font-size: 1em;
-    margin: 0;
+.svg-container {
+  position: relative;
+  width: 40%;
+  height: 70%;
+  margin: auto;
 }
 
-#Users-container{border: 1px solid slateblue;}
-#group-container{border: 1px solid hotpink;}
+.svg-container svg {
+  width: 100%;
+  height: 100%;
+}
 
-#group-container h1{
-color: lime;
- font-weight: lighter;
- margin: 0;
+#users-btn {
+  color: lime;
+  font-weight: lighter;
+  font-size: 1em;
+  margin: 0;
+}
+
+#Users-container {
+  border: 1px solid slateblue;
+}
+#group-container {
+  border: 1px solid hotpink;
+}
+
+#group-container h1 {
+  color: lime;
+  font-weight: lighter;
+  margin: 0;
 }

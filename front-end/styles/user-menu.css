@@ -28,7 +28,6 @@ ul{
     padding: 1%;
 }
 li{
-    /* border: 1px solid green; */
     flex-shrink: 1;
     margin: 4%;
     padding: 0;
@@ -49,6 +48,7 @@ li button{
     width: max-content;
     height: max-content;
     transition-duration: .5s;
+    transition-property: box-shadow, transform;
     border-radius: 5px;
     border: none;
     background: none;
@@ -58,8 +58,7 @@ li button{
 }
 
 li button:hover{
-    box-shadow: 1px 1px 10px black, inset 0 0 5px lime;
-    border: .1px solid lime;
+    box-shadow: 1px 10px 15px black, 1px 9px 10px lime, inset 0 0 2px lime;
     z-index: 1;
 }
 
@@ -74,16 +73,19 @@ li button:hover{
     top: 0;
     width: 40%;
     font-size: clamp(.6rem, 2vw, 1rem);
-    border: .1px solid red;
+    border: none;
     border-radius: 5px;
     color: white;
     transition-duration: .2s;
     background: none;
-    box-shadow: 1px 1px 2px black, inset 0 0 9px red;
     cursor: pointer;
 }
 
 #close-user-menu:hover{
     transform: scale(1.1);
-    box-shadow: .1px .1px 40px red;
+    box-shadow: 1px 13px 15px black, 1px 9px 10px red, inset 0 0 5px red;
+
+    #user-menu{
+        box-shadow: 1px 1px 10px black, inset 0 0 5px red;
+    }
 }

@@ -1,12 +1,7 @@
 
 function notify(msg){alert(msg)}
 
-// function loggedIn(){
-//   $('#main-form').attr('action')
-//   console.log('successfuly submit!')
-// }
-
-function loggedin(){
+function loggedIn(){
   document.getElementById('main-form').addEventListener('submit', (e) => e.preventDefault())
 
   fetch('/login', {
@@ -27,7 +22,6 @@ function loggedin(){
 }
 
 function registerLogin(){
-  //  $('#main-form').attr('action', '/register')
 document.getElementById('main-form').addEventListener('submit', (e) => e.preventDefault())
 
     var emailLabel =$('<label></label>')
