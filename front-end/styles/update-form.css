@@ -24,7 +24,6 @@ form input{
     transition: .4s;
 }
 
-
 form input:focus{
     outline: none;
     border-radius: 5px;

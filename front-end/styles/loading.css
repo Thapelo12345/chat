@@ -27,6 +27,7 @@
     color: #fff;
     position: relative;
     margin: 0 32px;
+    box-shadow: none;
   }
   .loading-container:before {
     content: "";

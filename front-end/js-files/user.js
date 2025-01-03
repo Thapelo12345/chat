@@ -307,11 +307,10 @@ function deleteAccount() {
 } //end of delete acc func
 
 function openChat() {
-
-    $("#message-dash-board").css({
-      transform: "translateX(3%)",
-      visibility: "visible",
-    });
+  $("#message-dash-board").css({
+    transform: "translateX(3%)",
+    visibility: "visible",
+  });
 
   $("#user-container").css("z-index", "0");
   $("#users-group-menu").css({
@@ -321,6 +320,20 @@ function openChat() {
   $("#group-nav").empty().remove();
   $("#user-list").remove();
 } //end of open chat
+
+function minLoader(){
+  let loaderSection = $("<section></section>")
+  let loadAnimation = $("<div></div>")
+  loadAnimation.attr('id', 'min-animation')
+  loaderSection.attr('id', 'min-loader')
+
+  for (let i = 1; i <= 20; i++) {
+    loadAnimation.append(`<span style="--i:${i};"></span>`);
+}
+ 
+  loaderSection.append(loadAnimation)
+  loaderSection.insertAfter($("#group-nav"))
+}
 
 function usersOnlineList() {
   const searchIcon = `<svg fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -378,10 +391,11 @@ function usersOnlineList() {
     $("#loading").css("display", "flex");
     socket.emit("ask-to-chat", userName); //ask to chat socket
   } //end of ask to chat func
-
+ 
   fetch("/online/users", { method: "GET" })
-    .then((res) => res.json())
-    .then((result) => {
+  .then((res) => res.json())
+  .then((result) => {
+
       result.users.forEach((item) => {
         //create elements
         let userPic = $("<img>");
@@ -419,8 +433,13 @@ function usersOnlineList() {
         listItem.append(imageAndName, userName, chatBtn);
         orderList.append(listItem);
       }); //end of each loop
+
+  $("#min-loader").empty().remove()
+  // usersList();
+
     })
     .catch((err) => {
+      $("#min-loader").empty().remove()
       alert(`The is this Error: ${err}`);
     });
 
@@ -428,6 +447,8 @@ function usersOnlineList() {
   navBar.append(searchForm);
 
   navBar.insertBefore("#users-group-close-btn");
+  minLoader()
+
   usersList();
 
   $("#user-list").append(orderList);
@@ -478,7 +499,6 @@ function createGroup() {
 } //end of create group func
 
 function groupsList() {
-
   $(".nav-btn").prop("disabled", true);
   const searchIcon = `<svg width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -516,6 +536,7 @@ function groupsList() {
   navBar.append(createBtn, searchForm);
 
   navBar.insertBefore("#users-group-close-btn");
+  minLoader()
   usersList();
 
   let orderList = $("<ul></ul>");
@@ -554,8 +575,12 @@ function groupsList() {
           $(orderList).append(listItem);
         }); //end of each loop
       }
+      $("#min-loader").empty().remove()
+
     })
-    .catch((err) => console.log(`This is the i got : ${err}`));
+    .catch((err) => {
+      $("#min-loader").empty().remove()
+      console.log(`This is the i got : ${err}`)});
   $("#user-list").append(orderList);
 
   $("#users-group-menu").css({
@@ -674,8 +699,8 @@ $(document).ready(function () {
     .catch((err) => {
       $("#loading")[0].close();
       $("#loading").css("display", "none");
-      alert('the is a server error!')
-      console.log(err)
+      alert("the is a server error!");
+      console.log(err);
     });
 
   window.addEventListener("beforeunload", () => {

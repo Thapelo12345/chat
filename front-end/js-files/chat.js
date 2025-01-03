@@ -3,36 +3,37 @@ function modifyUrl(arr) {
   return arr.join("/");
 } //end of modify fun
 
-async function settingProfilePic(id){
+async function settingProfilePic(id) {
   try {
-  let userImage = $('<div></div>')
-    userImage.attr('id', 'user-image')
+    let userImage = $("<div></div>");
+    userImage.attr("id", "user-image");
 
     //fect image
-    let res = await fetch('/get_profile_pic' + id, {method: 'GET'})
+    let res = await fetch("/get_profile_pic" + id, { method: "GET" });
     let image = res.status === 200 ? await res.blob() : await res.text();
 
-image instanceof Blob ? userImage.css('background-image', "url("+ URL.createObjectURL(image) +")") : userImage.css('background-image', "url(pic/person-icon-1675.png)")
-//done fetching image
+    image instanceof Blob
+      ? userImage.css(
+          "background-image",
+          "url(" + URL.createObjectURL(image) + ")"
+        )
+      : userImage.css("background-image", "url(pic/person-icon-1675.png)");
+    //done fetching image
 
-  
-    $('#chat-with-container').append(userImage)
-  }//end of try
+    $("#chat-with-container").append(userImage);
+  } catch (err) {
+    //end of try
 
-  catch(err){
-    alert('Cant fetch profile pic')
-    console.error(err)
-  }//end of catch
-
-}//end of setting profile pic fun
+    alert("Cant fetch profile pic");
+    console.error(err);
+  } //end of catch
+} //end of setting profile pic fun
 
 const url = modifyUrl(window.location.href.split("/"));
 const socket = io(url);
 var chatType, currentUser;
 
-socket.on("connect", () => {
- 
-}); //get my socket id
+socket.on("connect", () => {}); //get my socket id
 
 socket.on("disconnected", () => {
   alert("You have disconnected, please refresh page!");
@@ -40,7 +41,6 @@ socket.on("disconnected", () => {
 });
 
 socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
-    
   let responseValue;
   $("#dialog-header").text(personAskingToChat);
   $("#dialog-paragraph").text("Hey, Let's Chat!?.");
@@ -52,34 +52,44 @@ socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
       $("#chat-with-title").text("Chating with " + personAskingToChat);
       chatType = "private";
       responseValue = e.target.value;
-      $("#ask-dialog")[0].close()
+      $("#ask-dialog")[0].close();
 
-      $("#message-dash-board").css({ transform: "translateX(13%)", visibility: "visible" });
+      $("#message-dash-board").css({
+        transform: "translateX(13%)",
+        visibility: "visible",
+      });
       $("#users-group-menu").css("left", "-42%");
       $("#group-nav").empty().remove();
       $("#user-list").remove();
       $("#group-container").css("z-index", "-2");
       $("#user-container").css("z-index", "-1");
       $("#users-group-menu").css("left", "11%");
-      socket.emit('confirmation', responseValue, personAskingToChat, personAskingToChatId);
+      socket.emit(
+        "confirmation",
+        responseValue,
+        personAskingToChat,
+        personAskingToChatId
+      );
       openChat();
-      if ($('#chat-with-container').children().length > 1) {$('#chat-with-container').children().last().remove()}
-      settingProfilePic(personAskingToChatId)
+      if ($("#chat-with-container").children().length > 1) {
+        $("#chat-with-container").children().last().remove();
+      }
+      settingProfilePic(personAskingToChatId);
     }); //yes btn func
 
   $("#no-btn")
     .off("click")
     .on("click", (e) => {
       responseValue = e.target.value;
-      $('#ask-dialog')[0].close()
+      $("#ask-dialog")[0].close();
 
-      socket.emit('confirmation', responseValue, personAskingToChat);
+      socket.emit("confirmation", responseValue, personAskingToChat);
     }); //no btn fucn
 }); //i am recieving from the requester
 
 socket.on("already-on-privateChat", (toUser) => {
-  $('#loading')[0].close()
-  $('#loading').css('display', 'none')
+  $("#loading")[0].close();
+  $("#loading").css("display", "none");
 
   $("#load-text").text("Loading Data...");
 
@@ -96,7 +106,6 @@ socket.on("already-on-privateChat", (toUser) => {
 }); //end of already in a private chat socket
 
 socket.on("final-response", (except, user1, responseId) => {
-
   $("#loading")[0].close();
   $("#loading").css("display", "none");
 
@@ -112,17 +121,22 @@ socket.on("final-response", (except, user1, responseId) => {
 
   if (except === "yes") {
     $("#chat-with-title").text("Chating with " + user1);
-    
+
     $("#confirm-paragraph").text("Has excepted to chat with you");
     document.getElementById("confirm-dialog").showModal();
 
-    if ($('#chat-with-container').children().length > 1) {$('#chat-with-container').children().last().remove()}
-    settingProfilePic(responseId)
+    if ($("#chat-with-container").children().length > 1) {
+      $("#chat-with-container").children().last().remove();
+    }
+    settingProfilePic(responseId);
 
     let puase = setTimeout(() => {
       document.getElementById("confirm-dialog").close();
 
-      $("#message-dash-board").css({ transform: "translateX(13%)", visibility: "visible" });
+      $("#message-dash-board").css({
+        transform: "translateX(13%)",
+        visibility: "visible",
+      });
       $("#users-group-menu").css("left", "-42%");
       $("#group-nav").empty().remove();
       $("#user-list").remove();
@@ -154,11 +168,14 @@ socket.on("recieve-group-message", (msg, fromUser, userId) => {
   displayMessage(msg, "cadetblue", fromUser, userId);
 }); //recieving goup message
 
-socket.on('close-chat-notification', (userClosingChat) => {
+socket.on("close-chat-notification", (userClosingChat) => {
   $("#confirm-header").text(userClosingChat);
   $("#confirm-paragraph").text("Has Terminated the chat!.");
 
-  $("#message-dash-board").css({ transform: "translateX(100%)", visibility: "hidden" });
+  $("#message-dash-board").css({
+    transform: "translateX(100%)",
+    visibility: "hidden",
+  });
   $("#message-log").empty();
 
   document.getElementById("confirm-dialog").showModal();
@@ -186,22 +203,24 @@ socket.on("notify", async (getName, group, type) => {
   }, 2400);
 }); //end of notify socket
 
-socket.on('group_count', (number_of_users)=>{
+socket.on("group_count", (number_of_users) => {
+  let groupCount = $("<div></div>");
+  groupCount.attr("id", "group-count");
 
-      let groupCount = $('<div></div>')
-      groupCount.attr('id', 'group-count')
+  let number = $("<span></span>");
+  number.attr("id", "digit");
+  number.text(number_of_users.toString());
+  groupCount.append(number);
 
-      let number = $('<span></span>')
-      number.attr('id', 'digit')
-      number.text(number_of_users.toString())
-      groupCount.append(number)
+  if ($("#chat-with-container").children().length > 1) {
+    $("#chat-with-container").children().last().remove();
+  }
+  $("#chat-with-container").append(groupCount);
+}); //end of group count user socket
 
-      if($('#chat-with-container').children().length > 1) {$('#chat-with-container').children().last().remove()}
-      $('#chat-with-container').append(groupCount)
-   
-})//end of group count user socket
-
-socket.on('update_count', (number_of_users) =>{ $('#digit').text(number_of_users.toString())})
+socket.on("update_count", (number_of_users) => {
+  $("#digit").text(number_of_users.toString());
+});
 
 function displayMessage(msg, colorSelector, sender, Id) {
   let title = $("<h1></h1>");
@@ -260,8 +279,7 @@ function displayMessage(msg, colorSelector, sender, Id) {
       { scrollTop: $("#message-log")[0].scrollHeight },
       1500
     );
-  }
-   else {
+  } else {
     title.text(msg);
     $("#message-log").append(title);
     $("#message-log").animate(
@@ -296,5 +314,5 @@ function closeChat() {
 
   chatType === "private"
     ? socket.emit("close-private-chat")
-    : socket.emit('close-group-chat', chatGroup);
+    : socket.emit("close-group-chat", chatGroup);
 } //end of close chat funt
