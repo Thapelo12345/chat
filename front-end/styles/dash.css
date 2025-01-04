@@ -105,8 +105,8 @@ nav h1 {
   flex-direction: column;
   align-items: center;
   max-width: 15vw;
-  min-width: 60px;
-  min-height: 30%;
+  min-width: 80px;
+  min-height: 40%;
   max-height: 100%;
   border-radius: 5px;
   transition-duration: 0.5s;
@@ -121,7 +121,6 @@ nav h1 {
 }
 
 #user-container {
-  
   border: 1px solid green;
 }
 
@@ -146,8 +145,6 @@ nav h1 {
 #image-container {
   border: 2px solid white;
   position: relative;
-  /* width: 7vw;
-  height: 7vw; */
   width: 40%;
   height: 70%;
   margin: auto;
