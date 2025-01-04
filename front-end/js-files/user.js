@@ -1,8 +1,8 @@
 var mobiScreen = window.matchMedia("(max-width: 1156px)").matches;
 
 var usersOnlinePosition, groupPosition;
-
 var chatGroup;
+var waitingforuser = false;
 
 function fold(viewBtn) {
   let mainPos = $("#user-container").offset().left;
@@ -321,19 +321,19 @@ function openChat() {
   $("#user-list").remove();
 } //end of open chat
 
-function minLoader(){
-  let loaderSection = $("<section></section>")
-  let loadAnimation = $("<div></div>")
-  loadAnimation.attr('id', 'min-animation')
-  loaderSection.attr('id', 'min-loader')
+function minLoader() {
+  let loaderSection = $("<section></section>");
+  let loadAnimation = $("<div></div>");
+  loadAnimation.attr("id", "min-animation");
+  loaderSection.attr("id", "min-loader");
 
   for (let i = 1; i <= 20; i++) {
     loadAnimation.append(`<span style="--i:${i};"></span>`);
-}
- 
-  loaderSection.append(loadAnimation)
-  loaderSection.insertAfter($("#group-nav"))
-}
+  }
+
+  loaderSection.append(loadAnimation);
+  loaderSection.insertAfter($("#group-nav"));
+} //end of min loader func
 
 function usersOnlineList() {
   const searchIcon = `<svg fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -390,12 +390,42 @@ function usersOnlineList() {
     $("#loading")[0].showModal();
     $("#loading").css("display", "flex");
     socket.emit("ask-to-chat", userName); //ask to chat socket
-  } //end of ask to chat func
- 
-  fetch("/online/users", { method: "GET" })
-  .then((res) => res.json())
-  .then((result) => {
+    waitingforuser = true;
 
+    let waitingTimer = setTimeout(() => {
+      if (waitingforuser) {
+        waitingforuser = false;
+        $("#loading")[0].close();
+        $("#loading").css("display", "none");
+
+        $("#span-text").empty();
+        $("#span-text").append("<span>L</span>");
+        $("#span-text").append("<span>O</span>");
+        $("#span-text").append("<span>A</span>");
+        $("#span-text").append("<span>D</span>");
+        $("#span-text").append("<span>I</span>");
+        $("#span-text").append("<span>N</span>");
+        $("#span-text").append("<span>G</span>");
+        $("#confirm-header").text(userName);
+
+        $("#confirm-paragraph").text("Is offline or busy.");
+        $("#confirm-dialog")[0].showModal();
+        $("#confirm-dialog").css("display", "flex");
+
+        let puase = setTimeout(() => {
+          $("#confirm-dialog")[0].close();
+          $("#confirm-dialog").css("display", "none");
+          unfold();
+          clearTimeout(puase);
+        }, 5000);
+      }
+      clearTimeout(waitingTimer);
+    }, 10000); //end of waitingtimer time out
+  } //end of ask to chat func
+
+  fetch("/online/users", { method: "GET" })
+    .then((res) => res.json())
+    .then((result) => {
       result.users.forEach((item) => {
         //create elements
         let userPic = $("<img>");
@@ -434,12 +464,11 @@ function usersOnlineList() {
         orderList.append(listItem);
       }); //end of each loop
 
-  $("#min-loader").empty().remove()
-  // usersList();
-
+      $("#min-loader").empty().remove();
+      // usersList();
     })
     .catch((err) => {
-      $("#min-loader").empty().remove()
+      $("#min-loader").empty().remove();
       alert(`The is this Error: ${err}`);
     });
 
@@ -447,7 +476,7 @@ function usersOnlineList() {
   navBar.append(searchForm);
 
   navBar.insertBefore("#users-group-close-btn");
-  minLoader()
+  minLoader();
 
   usersList();
 
@@ -536,7 +565,7 @@ function groupsList() {
   navBar.append(createBtn, searchForm);
 
   navBar.insertBefore("#users-group-close-btn");
-  minLoader()
+  minLoader();
   usersList();
 
   let orderList = $("<ul></ul>");
@@ -575,12 +604,12 @@ function groupsList() {
           $(orderList).append(listItem);
         }); //end of each loop
       }
-      $("#min-loader").empty().remove()
-
+      $("#min-loader").empty().remove();
     })
     .catch((err) => {
-      $("#min-loader").empty().remove()
-      console.log(`This is the i got : ${err}`)});
+      $("#min-loader").empty().remove();
+      console.log(`This is the i got : ${err}`);
+    });
   $("#user-list").append(orderList);
 
   $("#users-group-menu").css({
@@ -673,6 +702,7 @@ function search(type, findName) {
 $(document).ready(function () {
   $("#loading")[0].showModal();
   $("#loading").css("display", "flex");
+  // sessionStorage.setItem("online", "I am online")
 
   fetch("/data", { method: "GET", credentials: "include" })
     .then((res) => res.json())
@@ -702,10 +732,4 @@ $(document).ready(function () {
       alert("the is a server error!");
       console.log(err);
     });
-
-  window.addEventListener("beforeunload", () => {
-    fetch("/logout", { method: POST })
-      .then()
-      .catch((err) => console.log("fail to log out " + err));
-  });
 });

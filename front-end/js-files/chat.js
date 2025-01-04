@@ -41,18 +41,43 @@ socket.on("disconnected", () => {
 });
 
 socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
+  waitingforuser = true;
   let responseValue;
   $("#dialog-header").text(personAskingToChat);
   $("#dialog-paragraph").text("Hey, Let's Chat!?.");
-  document.getElementById("ask-dialog").showModal();
+  $("#ask-dialog")[0].showModal();
+  $("#ask-dialog").css("display", "flex");
+
+  let timer = setTimeout(() => {
+    if (waitingforuser) {
+      waitingforuser = false;
+      $("#ask-dialog")[0].close();
+      $("#ask-dialog").css("display", "none");
+      $("#confirm-header").text(personAskingToChat);
+
+      $("#confirm-paragraph").text("Wanted to chat with you!...");
+      $("#confirm-dialog")[0].showModal();
+      $("#confirm-dialog").css("display", "flex");
+
+      let pause = setTimeout(() => {
+        $("#confirm-dialog")[0].close();
+        $("#confirm-dialog").css("display", "none");
+        clearTimeout(pause);
+      }, 5000);
+    } //end of if
+    clearTimeout(timer);
+  }, 10000);
 
   $("#yes-btn")
     .off("click")
     .on("click", (e) => {
+      waitingforuser = false;
+
       $("#chat-with-title").text("Chating with " + personAskingToChat);
       chatType = "private";
       responseValue = e.target.value;
       $("#ask-dialog")[0].close();
+      $("#ask-dialog").css("display", "none");
 
       $("#message-dash-board").css({
         transform: "translateX(13%)",
@@ -80,8 +105,11 @@ socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
   $("#no-btn")
     .off("click")
     .on("click", (e) => {
+      waitingforuser = false;
+
       responseValue = e.target.value;
       $("#ask-dialog")[0].close();
+      $("#ask-dialog").css("display", "none");
 
       socket.emit("confirmation", responseValue, personAskingToChat);
     }); //no btn fucn
@@ -96,13 +124,16 @@ socket.on("already-on-privateChat", (toUser) => {
   $("#confirm-header").text(toUser);
   $("#confirm-paragraph").text("Is aready in a private or Group chat!");
 
-  document.getElementById("confirm-dialog").showModal();
+  $("#confirm-dialog")[0].showModal();
+  $("#confirm-dialog").css("display", "flex");
 
   let puase = setTimeout(() => {
-    document.getElementById("confirm-dialog").close();
+    $("#confirm-dialog")[0].close();
+    $("#confirm-dialog").css("display", "none");
+
     clearTimeout(puase);
     unfold();
-  }, 3000);
+  }, 5000);
 }); //end of already in a private chat socket
 
 socket.on("final-response", (except, user1, responseId) => {
@@ -120,10 +151,12 @@ socket.on("final-response", (except, user1, responseId) => {
   $("#confirm-header").text(user1);
 
   if (except === "yes") {
+    waitingforuser = false;
     $("#chat-with-title").text("Chating with " + user1);
 
     $("#confirm-paragraph").text("Has excepted to chat with you");
-    document.getElementById("confirm-dialog").showModal();
+    $("#confirm-dialog")[0].showModal();
+    $("#confirm-dialog").css("display", "flex");
 
     if ($("#chat-with-container").children().length > 1) {
       $("#chat-with-container").children().last().remove();
@@ -131,7 +164,8 @@ socket.on("final-response", (except, user1, responseId) => {
     settingProfilePic(responseId);
 
     let puase = setTimeout(() => {
-      document.getElementById("confirm-dialog").close();
+      $("#confirm-dialog")[0].close();
+      $("#confirm-dialog").css("display", "none");
 
       $("#message-dash-board").css({
         transform: "translateX(13%)",
@@ -146,17 +180,20 @@ socket.on("final-response", (except, user1, responseId) => {
       openChat();
 
       clearTimeout(puase);
-    }, 1000);
+    }, 1500);
   } //end of if
   else {
+    waitingforuser = false;
     $("#confirm-paragraph").text("Has decline your chat request");
-    document.getElementById("confirm-dialog").showModal();
+    $("#confirm-dialog")[0].showModal();
+    $("#confirm-dialog").css("display", "flex");
 
     let puase = setTimeout(() => {
-      document.getElementById("confirm-dialog").close();
+      $("#confirm-dialog")[0].close();
+      $("#confirm-dialog").css("display", "none");
       unfold();
       clearTimeout(puase);
-    }, 1000);
+    }, 5000);
   } //end of else
 }); // getting response from the person i have ask
 

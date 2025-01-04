@@ -36,7 +36,7 @@ const sessionMiddleware = session({
     mongoUrl: process.env.MONGO_URL, // MongoDB URL
     collectionName: "sessions", // Collection name where sessions will be stored
   }),
-  cookie: { maxAge: 5000 * 60 * 60 * 24 },
+  cookie: { maxAge: 48 * 60 * 60 * 1000 },
 }); //end of session object
 
 // app.use(require('./server js files/routes', router))
@@ -91,22 +91,30 @@ io.on("connection", (socket) => {
     let fromUserId = session.userId;
 
     if (
-      singleChatPairs.find(
-        (item) => item.user1 === toUser || item.user2 === toUser
-      ) === undefined
+      userNameAndId.indexOf(
+        userNameAndId.find((item) => item.name === toUser)
+      ) !== -1
     ) {
-      if (userAndGroup.find((item) => item.name === toUser) === undefined) {
-        socket
-          .to(userNameAndId.find((item) => item.name === toUser).id)
-          .emit("recieve-ask", fromUser, fromUserId);
-      } //end of inner if
+      if (
+        singleChatPairs.find(
+          (item) => item.user1 === toUser || item.user2 === toUser
+        ) === undefined
+      ) {
+        if (userAndGroup.find((item) => item.name === toUser) === undefined) {
+          let userHasId = userNameAndId.find((item) => item.name === toUser).id;
+
+          if (userHasId) {
+            socket.to(userHasId).emit("recieve-ask", fromUser, fromUserId);
+          }
+        } //end of inner if
+        else {
+          socket.emit("already-on-privateChat", toUser);
+        } //end of inner else
+      } //end of if
       else {
         socket.emit("already-on-privateChat", toUser);
-      } //end of inner else
-    } //end of if
-    else {
-      socket.emit("already-on-privateChat", toUser);
-    } //end of else
+      } //end of else
+    } //end of outer if
   }); //end of ask to chat socket
 
   socket.on("confirmation", (confirm, theOneWhoAksed) => {
@@ -226,7 +234,7 @@ app.get("/data", async (req, res) => {
     const data = {
       crrId: req.session.userId,
       user: userName,
-      onlineUsers: numberOfUsers > 1 ? numberOfUsers - 1 : numberOfUsers,
+      onlineUsers: numberOfUsers >= 1 ? numberOfUsers - 1 : numberOfUsers,
       groups: numberOfGroups,
       profilePic: pic,
     };
@@ -290,31 +298,7 @@ app.post("/login", async (req, res) => {
 }); //end of login
 
 app.get("/logout", async (req, res) => {
-  let user = await User.findByIdAndUpdate(
-    req.session.userId,
-    { isActive: false },
-    { new: true, runValidators: true }
-  );
-  userNameAndId.splice(
-    userNameAndId.indexOf(
-      userNameAndId.find((item) => item.name === user.username)
-    ),
-    0
-  );
-
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Failed to logout.");
-    }
-    // Clear any cookies if applicable
-    else {
-      res.clearCookie("connect.sid");
-      return res.redirect("/");
-    } //end of else
-  });
-}); //end of logout route
-
-app.post("/logout", async (req, res) => {
+  console.log("original log out run!");
   let user = await User.findByIdAndUpdate(
     req.session.userId,
     { isActive: false },
@@ -329,11 +313,12 @@ app.post("/logout", async (req, res) => {
 
   req.session.destroy((err) => {
     if (err) {
-      res.status(500).send("Failed to logout.");
+      return res.status(500).send("Failed to logout.");
     }
     // Clear any cookies if applicable
     else {
       res.clearCookie("connect.sid");
+      return res.redirect("/");
     } //end of else
   });
 }); //end of logout route

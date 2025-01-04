@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="styles/mobile-forms-and-menus.css" />
     <link rel="stylesheet" href="styles/mobile-chat.css" />
     <link rel="stylesheet" href="styles/loading.css" />
-    <link rel="stylesheet" href="styles/dialog.css">
-    <link rel="stylesheet" href="styles/min-loader.css">
+    <link rel="stylesheet" href="styles/dialog.css" />
+    <link rel="stylesheet" href="styles/min-loader.css" />
 
     <script src="js-files/jquery-2.1.1.min.js"></script>
     <script
@@ -30,6 +30,7 @@
     <script type="text/javascript" src="js-files/user.js"></script>
     <script type="text/javascript" src="js-files/chat.js"></script>
   </head>
+
   <body>
     <div id="title-container">
       <h1>Let's <span>TALK!</span></h1>
@@ -127,54 +128,76 @@
         Close
       </button>
     </div>
-    
-<!-- setting up messages -->
-<div id="message-dash-board">
-  <div id="message-log">
 
-      <!-- <div id="senderPic">
+    <!-- setting up messages -->
+    <div id="message-dash-board">
+      <div id="message-log">
+        <!-- <div id="senderPic">
   <img src="person-icon-1675.png" alt="user image" >
 
           <h2 class="user-name-title">Thapelo Skhosana</h2>
       </div>
       <h1 id="sent-message">Some messages sent by user</h1> -->
-  </div>
+      </div>
 
-
-  <div id="message-board">
-      <div id="chat-with-container" class="infor-containers">
+      <div id="message-board">
+        <div id="chat-with-container" class="infor-containers">
           <h3 id="chat-with-title">Chat with user</h3>
 
           <!-- <div id="user-image">
               <img src="person-icon-1675.png" alt="user image" id="user-image">
           </div> -->
-
-      </div>
-      <div id="notification-section" class="infor-containers">
+        </div>
+        <div id="notification-section" class="infor-containers">
           <!-- <h1 id="notification-title"> user Has Join chat</h1>    -->
+        </div>
+
+        <textarea
+          placeholder="write message here!"
+          name="message-insert"
+          id="message-insert"
+          required
+        ></textarea>
       </div>
 
-      <textarea  placeholder="write message here!" name="message-insert" id="message-insert" required></textarea>
-  </div>
+      <div id="btn-container">
+        <button
+          id="close-chat-btn"
+          class="message-board-btns"
+          onclick="closeChat()"
+        >
+          close chat
+        </button>
+        <button
+          id="send-btn"
+          class="message-board-btns"
+          onclick="sendMessage()"
+        >
+          send
+        </button>
+      </div>
+    </div>
 
-  <div id="btn-container">
-      <button id="close-chat-btn" class="message-board-btns" onclick="closeChat()">close chat</button>
-      <button id="send-btn" class="message-board-btns" onclick="sendMessage()">send</button>
-  </div>
-</div>
-  
-  <!-- End of the whole message board -->
+    <!-- End of the whole message board -->
 
-    <dialog id="ask-dialog">
-      <h1 id="dialog-header">User Thapelo</h1>
-      <p id="dialog-paragraph">Hi the this is the paragraph</p>
-      <button id="yes-btn" value="yes">Yes</button>
-      <button id="no-btn" value="no">No</button>
+    <dialog id="ask-dialog" class="main-dialogs">
+      <h1 id="dialog-header" class="main-dialogs-title">User Thapelo</h1>
+      <p id="dialog-paragraph" class="main-dialogs-paragraph">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+        architecto?
+      </p>
+
+      <div id="dialog-btn-container">
+        <button id="yes-btn" value="yes">Yes</button>
+        <button id="no-btn" value="no">No</button>
+      </div>
     </dialog>
 
-    <dialog id="confirm-dialog">
-      <h1 id="confirm-header"></h1>
-      <p id="confirm-paragraph"></p>
+    <dialog id="confirm-dialog" class="main-dialogs">
+      <h1 id="confirm-header" class="main-dialogs-title">Thapz</h1>
+      <p id="confirm-paragraph" class="main-dialogs-paragraph">
+        Lorem ipsum dolor sit amet consectetur.
+      </p>
     </dialog>
 
     <dialog id="loading" class="loading-container">
