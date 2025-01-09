@@ -143,13 +143,19 @@ nav h1 {
 }
 
 #image-container {
-  border: 2px solid white;
   position: relative;
   width: 40%;
   height: 70%;
   margin: auto;
-  border-radius: 50%;
+  border-radius: 5px;
 }
+
+@media only screen and (max-width: 700px){
+  #image-container {
+    height: 90%;
+  }
+}
+
 #status-pic {
   display: block;
   width: 100%;

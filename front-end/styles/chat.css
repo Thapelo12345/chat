@@ -62,7 +62,7 @@
 
 .message-displayed {
   color: white;
-  font-size: clamp(0.7rem, 2vw, 0.8rem);
+  font-size: clamp(0.55rem, 2vw, 0.8rem);
   width: max-content;
   height: max-content;
   padding: 2%;
@@ -71,8 +71,8 @@
 }
 
 #sent-message {
-  font-size: clamp(0.5rem, 2vw, 1rem);
-  color: white;
+  font-size: clamp(0.5rem, 1.5vw, 1rem);
+  color: blue;
   width: max-content;
   height: max-content;
   padding: 2%;

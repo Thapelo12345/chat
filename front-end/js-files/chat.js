@@ -116,6 +116,8 @@ socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
 }); //i am recieving from the requester
 
 socket.on("already-on-privateChat", (toUser) => {
+  waitingforuser = false;
+
   $("#loading")[0].close();
   $("#loading").css("display", "none");
 
@@ -215,13 +217,16 @@ socket.on("close-chat-notification", (userClosingChat) => {
   });
   $("#message-log").empty();
 
-  document.getElementById("confirm-dialog").showModal();
+  $("#confirm-dialog")[0].showModal()
+  $("#confirm-dialog").css('display', 'flex')
+
 
   let puase = setTimeout(() => {
-    document.getElementById("confirm-dialog").close();
+    $("#confirm-dialog")[0].close()
+    $("#confirm-dialog").css('display', 'none')
     unfold();
     clearTimeout(puase);
-  }, 900); //end of time out
+  }, 2000); //end of time out
 }); //end of closing chat socket
 
 socket.on("notify", async (getName, group, type) => {
@@ -346,6 +351,7 @@ function closeChat() {
     transform: "translateX(100%)",
     visibility: "hidden",
   });
+
   $("#message-log").empty();
   unfold();
 

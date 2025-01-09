@@ -23,6 +23,7 @@ var userNameAndId = [],
 
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
+const { use } = require("react");
 
 //setting up connections
 mongoose.connect(process.env.MONGO_URL);
@@ -100,7 +101,9 @@ io.on("connection", (socket) => {
           (item) => item.user1 === toUser || item.user2 === toUser
         ) === undefined
       ) {
+       
         if (userAndGroup.find((item) => item.name === toUser) === undefined) {
+
           let userHasId = userNameAndId.find((item) => item.name === toUser).id;
 
           if (userHasId) {
@@ -168,12 +171,14 @@ io.on("connection", (socket) => {
   }); //end of closing private chat socket
 
   socket.on("close-group-chat", (grpName) => {
+
     userAndGroup.splice(
       userAndGroup.indexOf(
         userAndGroup.find((item) => item.name === session.userName)
       ),
       1
     );
+
     socket.broadcast.emit("notify", session.userName, grpName, "left");
 
     let number_of_users = io.sockets.adapter.rooms.get(grpName).size;
@@ -181,6 +186,7 @@ io.on("connection", (socket) => {
     if (grpName) {
       socket.to(grpName).emit("update_count", number_of_users - 1);
     } //end of if
+
   }); //end of closin group chat socket
 
   socket.on("join_group", (group) => {
@@ -298,7 +304,6 @@ app.post("/login", async (req, res) => {
 }); //end of login
 
 app.get("/logout", async (req, res) => {
-  console.log("original log out run!");
   let user = await User.findByIdAndUpdate(
     req.session.userId,
     { isActive: false },
