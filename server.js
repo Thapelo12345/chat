@@ -73,41 +73,73 @@ io.on("connection", (socket) => {
   userNameAndId.push({ name: session.userName, id: socket.id });
 
   socket.on("disconnect", () => {
-    /* userNameAndId = [],
-    singleChatPairs = [],
-    userAndGroup = [];
-    */
+    if (
+      singleChatPairs.find(
+        (item) =>
+          item.user1 === socket.request.session.userName ||
+          item.user2 === socket.request.session.userName
+      )
+    ) {
+      let pos = singleChatPairs.indexOf(
+        singleChatPairs.find(
+          (item) =>
+            item.user1 === socket.request.session.userName ||
+            item.user2 === socket.request.session.userName
+        )
+      );
+      let closingUser;
+      if (pos !== -1) {
+        singleChatPairs[pos].user1 === socket.request.session.userName
+          ? (closingUser = singleChatPairs[pos].user1)
+          : (closingUser = singleChatPairs[pos].user2);
+      }
+      let sendTo =
+        closingUser === singleChatPairs[pos].user1
+          ? singleChatPairs[pos].user2
+          : singleChatPairs[pos].user1;
 
-   if(singleChatPairs.find((item) => item.user1 === socket.request.session.userName || item.user2 === socket.request.session.userName)){
-    let pos = singleChatPairs.indexOf(singleChatPairs.find((item) => item.user1 === socket.request.session.userName || item.user2 === socket.request.session.userName))
-    let closingUser;
-    if(pos !== -1){
-    singleChatPairs[pos].user1 === socket.request.session.userName ? closingUser = singleChatPairs[pos].user1 : closingUser = singleChatPairs[pos].user2
-   }
-   let sendTo = closingUser === singleChatPairs[pos].user1 ? singleChatPairs[pos].user2 : singleChatPairs[pos].user1
+      socket
+        .to(userNameAndId.find((item) => item.name === sendTo).id)
+        .emit("close-chat-notification", closingUser);
+      singleChatPairs.splice(pos, 1);
+    } //end first if
 
-   socket.to(userNameAndId.find((item) => item.name === sendTo).id).emit("close-chat-notification", closingUser);
-   singleChatPairs.splice(pos, 1)
-  }//end first if
+    if (
+      userAndGroup.find((item) => item.name === socket.request.session.userName)
+    ) {
+      let itemInfo = userAndGroup.find(
+        (item) => item.name === socket.request.session.userName
+      );
+      socket.broadcast.emit(
+        "notify",
+        session.userName,
+        itemInfo.groupName,
+        "left"
+      );
 
-  if(userAndGroup.find((item)=> item.name === socket.request.session.userName)){
-    let itemInfo = userAndGroup.find((item)=> item.name === socket.request.session.userName)
-    socket.broadcast.emit("notify", session.userName, itemInfo.groupName, "left");
+      let number_of_users = io.sockets.adapter.rooms.get(itemInfo.groupName)
+        ? io.sockets.adapter.rooms.get(itemInfo.groupName).size
+        : 2;
+      socket.leave(itemInfo.groupName);
+      socket.to(itemInfo.groupName).emit("update_count", number_of_users - 1);
 
-    let number_of_users = io.sockets.adapter.rooms.get(itemInfo.groupName) ? io.sockets.adapter.rooms.get(itemInfo.groupName).size : 2;
-    socket.leave(itemInfo.groupName);
-    socket.to(itemInfo.groupName).emit("update_count", number_of_users - 1);
+      userAndGroup.splice(userAndGroup.indexOf(itemInfo, 1));
+    } //end of second if
 
-    userAndGroup.splice(userAndGroup.indexOf(itemInfo, 1))
-  }//end of second if
-
-  if(userNameAndId.find((item) => item.name === socket.request.session.userName)){
-    userNameAndId.splice(
-      userNameAndId.indexOf(userNameAndId.find((item) => item.name === socket.request.session.userName)),
-      1
-    )
-   }//end of third if
-
+    if (
+      userNameAndId.find(
+        (item) => item.name === socket.request.session.userName
+      )
+    ) {
+      userNameAndId.splice(
+        userNameAndId.indexOf(
+          userNameAndId.find(
+            (item) => item.name === socket.request.session.userName
+          )
+        ),
+        1
+      );
+    } //end of third if
   }); //end of disconnect socket
 
   //done setting user  names and thier socket id's
