@@ -23,7 +23,6 @@ var userNameAndId = [],
 
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const { use } = require("react");
 
 //setting up connections
 mongoose.connect(process.env.MONGO_URL);
