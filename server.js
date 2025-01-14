@@ -29,6 +29,18 @@ const { use } = require("react");
 mongoose.connect(process.env.MONGO_URL);
 const connection = mongoose.createConnection(process.env.MONGO_URL);
 
+connection.on("connected", () => {
+  console.log("Mongoose connection established successfully.");
+});
+
+connection.on("error", (err) => {
+  console.error("Mongoose connection error:", err);
+});
+
+connection.on("disconnected", () => {
+  console.log("Mongoose connection disconnected.");
+});
+
 const sessionMiddleware = session({
   secret: process.env.SECRET, // Replace with your own secret
   resave: false,
@@ -56,33 +68,46 @@ io.engine.use(sessionMiddleware);
 io.on("connection", (socket) => {
   // setting user names and thier socket id's
   const session = socket.request.session;
+  socket.data.user = session.userName;
+
   userNameAndId.push({ name: session.userName, id: socket.id });
 
   socket.on("disconnect", () => {
-    //remove user from the user name and id array
+    /* userNameAndId = [],
+    singleChatPairs = [],
+    userAndGroup = [];
+    */
+
+   if(singleChatPairs.find((item) => item.user1 === socket.request.session.userName || item.user2 === socket.request.session.userName)){
+    let pos = singleChatPairs.indexOf(singleChatPairs.find((item) => item.user1 === socket.request.session.userName || item.user2 === socket.request.session.userName))
+    let closingUser;
+    if(pos !== -1){
+    singleChatPairs[pos].user1 === socket.request.session.userName ? closingUser = singleChatPairs[pos].user1 : closingUser = singleChatPairs[pos].user2
+   }
+   let sendTo = closingUser === singleChatPairs[pos].user1 ? singleChatPairs[pos].user2 : singleChatPairs[pos].user1
+
+   socket.to(userNameAndId.find((item) => item.name === sendTo).id).emit("close-chat-notification", closingUser);
+   singleChatPairs.splice(pos, 1)
+  }//end first if
+
+  if(userAndGroup.find((item)=> item.name === socket.request.session.userName)){
+    let itemInfo = userAndGroup.find((item)=> item.name === socket.request.session.userName)
+    socket.broadcast.emit("notify", session.userName, itemInfo.groupName, "left");
+
+    let number_of_users = io.sockets.adapter.rooms.get(itemInfo.groupName) ? io.sockets.adapter.rooms.get(itemInfo.groupName).size : 2;
+    socket.leave(itemInfo.groupName);
+    socket.to(itemInfo.groupName).emit("update_count", number_of_users - 1);
+
+    userAndGroup.splice(userAndGroup.indexOf(itemInfo, 1))
+  }//end of second if
+
+  if(userNameAndId.find((item) => item.name === socket.request.session.userName)){
     userNameAndId.splice(
-      userNameAndId.indexOf(
-        userNameAndId.find((item) => item.name === session.userName)
-      ),
+      userNameAndId.indexOf(userNameAndId.find((item) => item.name === socket.request.session.userName)),
       1
-    );
-    let pos = singleChatPairs.indexOf(
-      singleChatPairs.find(
-        (item) =>
-          item.user1 === session.userName || item.user2 === session.userName
-      )
-    );
+    )
+   }//end of third if
 
-    let name = userAndGroup.find((item) => item === session.userName);
-    if (name) {
-      userAndGroup.splice(userAndGroup.indexOf(name), 1);
-    }
-
-    if (pos !== -1) {
-      singleChatPairs.splice(pos, 1);
-      //i need to do something here!
-      socket.emit("disconnected");
-    }
   }); //end of disconnect socket
 
   //done setting user  names and thier socket id's
@@ -101,9 +126,7 @@ io.on("connection", (socket) => {
           (item) => item.user1 === toUser || item.user2 === toUser
         ) === undefined
       ) {
-       
         if (userAndGroup.find((item) => item.name === toUser) === undefined) {
-
           let userHasId = userNameAndId.find((item) => item.name === toUser).id;
 
           if (userHasId) {
@@ -171,7 +194,6 @@ io.on("connection", (socket) => {
   }); //end of closing private chat socket
 
   socket.on("close-group-chat", (grpName) => {
-
     userAndGroup.splice(
       userAndGroup.indexOf(
         userAndGroup.find((item) => item.name === session.userName)
@@ -186,11 +208,14 @@ io.on("connection", (socket) => {
     if (grpName) {
       socket.to(grpName).emit("update_count", number_of_users - 1);
     } //end of if
-
   }); //end of closin group chat socket
 
   socket.on("join_group", (group) => {
-    userAndGroup.push({ name: session.userName, groupName: group });
+    userAndGroup.push({
+      name: session.userName,
+      groupName: group,
+      Id: socket.id,
+    });
     socket.join(group);
 
     if (group && io.sockets.adapter.rooms.get(group)) {
@@ -215,7 +240,12 @@ io.on("connection", (socket) => {
   socket.on("groupChat", (msg, chatGroup) => {
     socket
       .to(chatGroup)
-      .emit("recieve-group-message", msg, session.userName, session.userId);
+      .emit(
+        "recieve-group-message",
+        msg,
+        socket.request.session.userName,
+        session.userId
+      );
   }); //end of chat group socket
 });
 //done setting up socket connections
@@ -309,12 +339,15 @@ app.get("/logout", async (req, res) => {
     { isActive: false },
     { new: true, runValidators: true }
   );
-  userNameAndId.splice(
-    userNameAndId.indexOf(
-      userNameAndId.find((item) => item.name === user.username)
-    ),
-    1
-  );
+
+  if (user) {
+    userNameAndId.splice(
+      userNameAndId.indexOf(
+        userNameAndId.find((item) => item.name === user.username)
+      ),
+      1
+    );
+  } //end of if
 
   req.session.destroy((err) => {
     if (err) {

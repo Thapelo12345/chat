@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Parkinsans:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Serif+Text:ital@0;1&family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');/* Let talk header inmport */
 
 body {
+  touch-action: manipulation;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -10,7 +11,8 @@ body {
   padding: 0;
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 #title-container {
@@ -26,11 +28,7 @@ body {
   width: max-content;
 }
 
-@media only screen and (min-width: 768px) {
-  #title-container {
-    margin-right: 95%;
-  }
-}
+
 
 #title-container::before {
   content: "";
@@ -79,7 +77,11 @@ body {
 #title-container h1 {
   position: relative;
   margin: 0;
-  font-family: "Bungee Spice", sans-serif;
+  font-family: "Noto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   color: white;
 }

@@ -30,34 +30,71 @@
   overflow-y: auto;
 }
 
-#senderPic {
+.message-container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: max-content;
-  max-width: 90px;
+  align-items: center;
+  width: fit-content;
   height: auto;
-  margin: 3%;
-  padding: 1%;
+  min-height: 33px;
+  margin-bottom: 6%;
+  padding: 0.5%;
   border-radius: 10px;
-  box-shadow: 1px 10px 12px black, 1px 10px 18px cadetblue;
 }
 
-#senderPic img {
-  display: block;
-  width: 5vw;
-  height: 5vw;
-  margin: 0;
-  box-sizing: border-box;
+.image-and-user-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  min-width: 18vw;
+  max-width: auto;
+  height: 30%;
+  margin-bottom: 2%;
+}
+
+.pic-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 3.1vw;
+  height: 3.1vw;
   border-radius: 50%;
 }
 
-#senderPic h2 {
-  color: white;
-  font-size: clamp(0.5rem, 2vw, 1rem);
-  margin: 1%;
-  margin-left: 10%;
-  box-sizing: border-box;
+.user-pic {
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
+}
+
+.sender-name {
+  color: white;
+  background: none;
+  box-shadow: 1px 9px 10px black, 0.2px 5px 10px aqua, inset 0 0 5px aqua;
+  border: none;
+  border-radius: 5px;
+  padding: 5%;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 0.8rem;
+  margin-left: 10%;
+  transform: scale(0.7);
+  animation: bounce 4s infinite alternate;
+}
+
+@keyframes bounce {
+  to {
+    transform: scale(1);
+  }
+}
+
+.message {
+  color: white;
+  margin: 1.5%;
+  padding: 4%;
+  border-radius: 5px;
 }
 
 .message-displayed {
@@ -68,15 +105,6 @@
   padding: 2%;
   margin: 3%;
   border-radius: 5px;
-}
-
-#sent-message {
-  font-size: clamp(0.5rem, 1.5vw, 1rem);
-  color: blue;
-  width: max-content;
-  height: max-content;
-  padding: 2%;
-  margin-top: -3%;
 }
 
 #message-board {
@@ -97,6 +125,7 @@
   width: 97%;
   margin: 1%;
 }
+
 #chat-with-container {
   position: relative;
   display: flex;
@@ -107,85 +136,49 @@
   z-index: 0;
 }
 
+.highlighter {
+  border-radius: 5px;
+  color: limegreen;
+  text-shadow: none;
+  margin: 1%;
+  text-decoration: none;
+}
+
 #chat-with-title {
-  color: white;
+  text-decoration: underline;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 0 0.3rem currentColor;
   margin: 0;
-  background-image: linear-gradient(0deg, cyan, steelblue);
+  font-size: clamp(0.5rem, 0.84rem, 1rem);
+  background-color: #131414;
+  border: 0.5px solid aquamarine;
+  box-shadow: 1px 9px 10px black, 0.3px 4px 10px aquamarine,
+    inset 0 0 5px aquamarine;
   border-radius: 5px;
   padding: 1%;
-  box-shadow: 1px 9px 10px black, 1px 9px 10px cadetblue;
-  text-shadow: 1px 0 0 black;
 }
 
-#user-image {
+#private-image {
+  border: 0.1px solid white;
   position: relative;
-  width: 4.5vw;
-  height: 4.5vw;
-  border-radius: 50%;
+  width: 5vw;
+  min-width: 50px;
+  height: 5vw;
+  min-height: 40px;
+  border-radius: 5px;
   margin: 4%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  transform-style: preserve-3d;
-  transform: perspective(1000px);
+  margin-top: 4%;
   box-sizing: border-box;
-  animation: glow 4s linear infinite alternate;
+  box-shadow: 1px 9px 10px black, 0.2px 5px 10px aquamarine;
 }
 
-@keyframes glow {
-  0% {
-    transform: rotateX(20deg) rotateY(-20deg);
-  }
-  15% {
-    transform: rotateX(-20deg) rotateY(-20deg);
-  }
-  30% {
-    transform: rotateX(-20deg) rotateY(0deg);
-  }
-  45% {
-    transform: rotateX(-20deg) rotateY(20deg);
-  }
-
-  60% {
-    transform: rotateX(0deg) rotateY(20deg);
-  }
-  75% {
-    transform: rotateX(20deg) rotateY(20deg);
-  }
-}
-
-#user-image img {
+#private-image img {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: inherit;
   z-index: 1;
-}
-
-*::after,
-*::before {
-  box-sizing: border-box;
-}
-#user-image::after,
-#user-image::before {
-  content: "";
-  border: none;
-  position: absolute;
-  border-radius: inherit;
-}
-
-#user-image::before {
-  inset: -0.1rem;
-  background-color: rgb(10, 8, 31);
-  transform: translateZ(-6px);
-  filter: blur(1px);
-}
-
-#user-image::after {
-  inset: -0.16rem;
-  background-color: white;
-  transform: translateZ(-30px);
-  filter: blur(5px);
-  opacity: 0.1;
 }
 
 #group-count {
@@ -234,7 +227,7 @@
 
 #notification-title {
   color: white;
-  font-size: 1rem;
+  font-size: clamp(0.5rem, 0.84rem, 1rem);
   width: max-content;
   height: max-content;
   padding: 1%;

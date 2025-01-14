@@ -6,18 +6,17 @@ function modifyUrl(arr) {
 async function settingProfilePic(id) {
   try {
     let userImage = $("<div></div>");
-    userImage.attr("id", "user-image");
+    let pic = $("<img>");
+    userImage.attr("id", "private-image");
 
     //fect image
     let res = await fetch("/get_profile_pic" + id, { method: "GET" });
     let image = res.status === 200 ? await res.blob() : await res.text();
 
     image instanceof Blob
-      ? userImage.css(
-          "background-image",
-          "url(" + URL.createObjectURL(image) + ")"
-        )
-      : userImage.css("background-image", "url(pic/person-icon-1675.png)");
+      ? pic.attr("src", URL.createObjectURL(image))
+      : pic.attr("src", "pic/person-icon-1675.png");
+    userImage.append(pic);
     //done fetching image
 
     $("#chat-with-container").append(userImage);
@@ -73,7 +72,11 @@ socket.on("recieve-ask", (personAskingToChat, personAskingToChatId) => {
     .on("click", (e) => {
       waitingforuser = false;
 
-      $("#chat-with-title").text("Chating with " + personAskingToChat);
+      // $("#chat-with-title").text("Chating with " + personAskingToChat);
+      $("#chat-with-title").html(
+        `Chating with <span class="highlighter">${personAskingToChat}</span>`
+      );
+
       chatType = "private";
       responseValue = e.target.value;
       $("#ask-dialog")[0].close();
@@ -154,7 +157,9 @@ socket.on("final-response", (except, user1, responseId) => {
 
   if (except === "yes") {
     waitingforuser = false;
-    $("#chat-with-title").text("Chating with " + user1);
+    $("#chat-with-title").html(
+      `Chating with <span class="highlighter">${user1}</span>`
+    );
 
     $("#confirm-paragraph").text("Has excepted to chat with you");
     $("#confirm-dialog")[0].showModal();
@@ -217,13 +222,12 @@ socket.on("close-chat-notification", (userClosingChat) => {
   });
   $("#message-log").empty();
 
-  $("#confirm-dialog")[0].showModal()
-  $("#confirm-dialog").css('display', 'flex')
-
+  $("#confirm-dialog")[0].showModal();
+  $("#confirm-dialog").css("display", "flex");
 
   let puase = setTimeout(() => {
-    $("#confirm-dialog")[0].close()
-    $("#confirm-dialog").css('display', 'none')
+    $("#confirm-dialog")[0].close();
+    $("#confirm-dialog").css("display", "none");
     unfold();
     clearTimeout(puase);
   }, 2000); //end of time out
@@ -265,81 +269,86 @@ socket.on("update_count", (number_of_users) => {
 });
 
 function displayMessage(msg, colorSelector, sender, Id) {
-  let title = $("<h1></h1>");
+  //setting up tags
+  let image_and_user_name = $("<div></div>");
+  image_and_user_name.addClass("image-and-user-name");
+
   let messageContainer = $("<div></div>");
-  messageContainer.attr("id", "senderPic");
+  messageContainer.addClass("message-container");
 
-  let senderPic = $("<img>");
-  senderPic.attr("id", "chat-pic");
+  let message = $("<p></p>");
+  message.addClass("message");
 
-  title.addClass("message-displayed");
-  title.css({
-    border: ".1px solid " + colorSelector,
-    boxShadow: "1px 0 15px black, inset 0 0 8px " + colorSelector,
-  });
+  let picContainer = $("<div></div>");
+  picContainer.addClass("pic-container");
 
-  let userName = $("<h2></h2>");
-  userName.text(sender);
+  let pic = $("<img>");
+  pic.addClass("user-pic");
 
-  //this is the group chat
+  let senderName = $("<h1></h1>");
+  senderName.addClass("sender-name");
+  //done setting tags
 
-  if (chatType !== "private") {
-    title.text(msg);
+  sender !== undefined && sender !== null
+    ? senderName.text(sender)
+    : senderName.text("Me");
 
-    //get user image
+  //get user image
+  if (Id) {
     fetch("/get_profile_pic" + Id, { method: "GET" })
       .then((res) => (res.status === 200 ? res.blob() : res.text()))
       .then((image) => {
         if (image instanceof Blob) {
-          senderPic.attr("src", URL.createObjectURL(image));
+          pic.attr("src", URL.createObjectURL(image));
         } else {
-          senderPic.attr("src", "pic/person-icon-1675.png");
+          pic.attr("src", "pic/person-icon-1675.png");
         }
       })
       .catch(() => alert("User has no image!"));
-    //done getting user image
+  } //end of id if
+  else {
+    pic.attr("src", $("#status-pic").attr("src"));
+  } //end of id else
 
-    if (sender === undefined) {
-      $("#message-log").append(title);
-    } else {
-      title.css({
-        color: "white",
-        fontSize: "clamp(.7rem, 1vw, .8rem)",
-        border: "none",
-        boxShadow: "none",
-        marginBottom: "4%",
-      });
-      title.removeClass("message-displayed");
+  //done getting user image
+  message.text(msg);
+  picContainer.append(pic);
 
-      $("#message-log").append(
-        messageContainer.append(senderPic, userName),
-        title
-      );
-    }
+  if (chatType === "private") {
+    // image_and_user_name.append(senderName)
+    messageContainer.append(message);
+    $("#message-log").append(messageContainer);
+  }
+  //group chat below
+  else {
+    Id
+      ? image_and_user_name.append(picContainer, senderName)
+      : image_and_user_name.append(senderName);
+    $("#message-log").append(messageContainer);
 
-    $("#message-log").animate(
-      { scrollTop: $("#message-log")[0].scrollHeight },
-      1500
-    );
-  } else {
-    title.text(msg);
-    $("#message-log").append(title);
-    $("#message-log").animate(
-      { scrollTop: $("#message-log")[0].scrollHeight },
-      1500
-    );
+    messageContainer.append(image_and_user_name, message);
   } //end of else
-} //end of display
+
+  // messageContainer.append(image_and_user_name, message)
+  messageContainer.css({
+    border: "1px solid " + colorSelector,
+    boxShadow: `1px 9px 12px black, 1px 10px 12px ${colorSelector}, inset 0 0 5px ${colorSelector}`,
+  });
+
+  $("#message-log").animate(
+    { scrollTop: $("#message-log")[0].scrollHeight },
+    1000
+  ); //end animate messag-log
+} //end of second display message
 
 function sendMessage() {
   let message = $("#message-insert").val();
 
   if (message !== "") {
-    if (chatType === "private") {
-      socket.emit("send-private-message", message);
-    } else if (chatType === "group") {
-      socket.emit("groupChat", message, chatGroup);
-    }
+    chatType === "private"
+      ? socket.emit("send-private-message", message)
+      : socket.emit("groupChat", message, chatGroup);
+
     displayMessage(message, "lime");
   } //end of if
 

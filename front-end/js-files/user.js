@@ -1,4 +1,4 @@
-var mobiScreen = window.matchMedia("(max-width: 1156px)").matches;
+var mobiScreen = window.matchMedia("(max-width: 600px)").matches;
 
 var usersOnlinePosition, groupPosition;
 var chatGroup;
@@ -341,6 +341,7 @@ function usersOnlineList() {
 </svg>`;
 
   fold($("#users-btn").val());
+
   //createing elemets
   let navBar = $("<nav></na>");
   navBar.attr("id", "group-nav");
@@ -482,7 +483,7 @@ function usersOnlineList() {
 
   $("#user-list").append(orderList);
   $("#users-group-menu").css({
-    transform: "translateX(0)",
+    transform: mobiScreen === true ? "translateX(-10%)" : "translateX(0)",
     visibility: "visible",
   });
 } //end of users list
@@ -581,6 +582,7 @@ function groupsList() {
           //create elements
           let listItem = $("<li></li>");
           let userName = $("<h4></h4>");
+          userName.addClass("user-name");
           let joinGroupBtn = $("<button></button>");
 
           //initialising elements
@@ -588,8 +590,8 @@ function groupsList() {
           joinGroupBtn.text("Join " + userName.text());
 
           joinGroupBtn.click(() => {
-            $("#chat-with-title").text(
-              "Chating On " + userName.text() + " group"
+            $("#chat-with-title").html(
+              `Chating On <span class="highlighter">${userName.text()}</span> group`
             );
             chatGroup = userName.text();
             socket.emit("join_group", userName.text());
@@ -613,7 +615,7 @@ function groupsList() {
   $("#user-list").append(orderList);
 
   $("#users-group-menu").css({
-    transform: "translateX(0)",
+    transform: mobiScreen === true ? "translateX(-10%)" : "translateX(0)",
     visibility: "visible",
   });
 } //end of group list func
@@ -622,6 +624,7 @@ function user_and_group_close_menu() {
   $("#users-group-menu").css("left", "-42%");
   $("#group-nav").empty().remove();
   $("#user-list").remove();
+  $("#min-loader").remove();
   $("#users-group-menu").css("visibility", "hidden");
 } //end of user and group list func
 

@@ -6,14 +6,14 @@
 
 #loading {
   position: absolute;
-  left: 30vw;
-  top: 25%;
+  left: 30%;
+  top: 30%;
   display: none;
   align-items: center;
   box-shadow: none;
   width: 25vw;
   min-width: 250px;
-  height: 20vh;
+  height: 30vh;
   min-height: 10px;
   border: 1px solid cadetblue;
   background-image: linear-gradient(145deg, #787878, #201b20);
@@ -24,9 +24,14 @@
   overflow: hidden;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 668px) {
   #loading {
-    left: 10%;
+    left: 19%;
+  }
+}
+@media only screen and (max-width: 454px) {
+  #loading {
+    left: .11%;
   }
 }
 
